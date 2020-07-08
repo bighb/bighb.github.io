@@ -6,7 +6,7 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -171,7 +171,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -181,7 +181,7 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 <a href="https://github.com/bighb"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/52760788cde945287fbb584134c4cbc2bc36f904/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"></a>
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -323,20 +323,20 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://bighb.github.io/2020/07/08/js/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="bighb">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content>
       <meta itemprop="image" content="/uploads/avatar.png">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="黄奔">
     </span>
 
@@ -379,7 +379,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/前端/" itemprop="url" rel="index">
                     <span itemprop="name">前端</span>
                   </a>
@@ -425,7 +425,7 @@
 <p>typeof操作符只会返回string类型的结果。参照如下列表可知对应不同数据，typeof返回的值</p>
 <p>都是什么：</p>
 <blockquote>
-<p><img src="https://i.imgur.com/NiGPqkw.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/NiGPqkw.jpg" alt></p>
 </blockquote>
 <p> 由此我们推断出，typeof arguments是object</p>
 <h4 id="问题二"><a href="#问题二" class="headerlink" title="问题二"></a><strong>问题二</strong></h4><blockquote>
@@ -464,7 +464,7 @@
 </blockquote>
 <h4 id="问题六"><a href="#问题六" class="headerlink" title="问题六"></a><strong>问题六</strong></h4><blockquote>
 <p>   var foo = {<br>bar: function() { return this.baz; },<br>baz: 1<br>};</p>
-<p>(function(){<br>return typeof arguments<a href="">0</a>;//“undefined”<br>})(foo.bar);<br>这里你可能会误以为最终结果是number。向函数中传递参数可以看作是一种赋值，所以</p>
+<p>(function(){<br>return typeof arguments<a href>0</a>;//“undefined”<br>})(foo.bar);<br>这里你可能会误以为最终结果是number。向函数中传递参数可以看作是一种赋值，所以</p>
 </blockquote>
 <p>arguments[0]得到是是真正的bar函数的值，而不是foo.bar这个引用，那么自然this也就不会</p>
 <p>指向foo，而是window了。</p>
@@ -664,7 +664,7 @@ var jiathis_config={
       
 
       <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="bighb">
           <p class="site-author-name" itemprop="name">bighb</p>
            
