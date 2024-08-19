@@ -6,7 +6,7 @@
   <link href="https://bighb.github.io/atom.xml" rel="self"/>
   
   <link href="https://bighb.github.io/"/>
-  <updated>2024-08-19T09:01:53.478Z</updated>
+  <updated>2024-08-19T09:12:39.907Z</updated>
   <id>https://bighb.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>tunnelmole将本地网络暴露到公网</title>
+    <link href="https://bighb.github.io/2024/08/19/2024-08-19/"/>
+    <id>https://bighb.github.io/2024/08/19/2024-08-19/</id>
+    <published>2024-08-19T09:02:58.000Z</published>
+    <updated>2024-08-19T09:12:39.907Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h3&gt;&lt;p&gt;平时本地跑 demo，想给别人看，或者调试，因为不在一个局域网，所以不方便，这个工具就是干这个事的&lt;/p&gt;
+&lt;h3 id=&quot;地址&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="tunnelmole" scheme="https://bighb.github.io/tags/tunnelmole/"/>
+    
+  </entry>
   
   <entry>
     <title>Ngnix使用笔记</title>
