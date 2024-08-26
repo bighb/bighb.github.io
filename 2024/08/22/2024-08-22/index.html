@@ -123,34 +123,34 @@
       <div class="post-content-wrapper">
         <div class="post-content">
           <p>这篇文章是对 nginx 的一个实战应用，同时进行内容补充，结合了 docker 让使用 nginx 部署服务更方便</p>
-<h1 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h1><p>操作环境 M2 </p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>操作环境 M2 </p>
 <p>使用的是 Homebrew 安装 Ngnix</p>
 <p>因为是上一篇的实战介绍，因此省略理论步骤，直接说具体操作步骤</p>
 <p>需求就是将本地前端的项目映射到本地 docker 中的 nginx 中，这样当前本地前端文件修改会实时反馈到 nginx 的服务器中，不用手动拷贝文件</p>
-<h1 id="确认docker-环境"><a href="#确认docker-环境" class="headerlink" title="确认docker 环境"></a>确认docker 环境</h1><p>判断是否已经启动了 docker</p>
+<h2 id="确认docker-环境"><a href="#确认docker-环境" class="headerlink" title="确认docker 环境"></a>确认docker 环境</h2><p>判断是否已经启动了 docker</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure>
 
 <p>如果 Docker 已经启动并正常运行，你会看到 Docker 的详细信息输出。如果 Docker 未启动或有问题，你将会看到相应的错误消息</p>
-<h1 id="启动-docker"><a href="#启动-docker" class="headerlink" title="启动 docker"></a>启动 docker</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open -a Docker</span><br></pre></td></tr></table></figure>
+<h2 id="启动-docker"><a href="#启动-docker" class="headerlink" title="启动 docker"></a>启动 docker</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open -a Docker</span><br></pre></td></tr></table></figure>
 
 <p>这将启动 Docker Desktop。如果你已经安装并配置好了 Docker Desktop，它会开始启动 Docker 引擎</p>
-<h1 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h1><p>查看当前本地安装的镜像</p>
+<h2 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h2><p>查看当前本地安装的镜像</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
 
 <p>我之前安装过，如果没有安装，使用命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
 
-<h1 id="nginx-端口确认"><a href="#nginx-端口确认" class="headerlink" title="nginx 端口确认"></a>nginx 端口确认</h1><p>因为之前本地有一个 nginx，非 docker 的，也启动过，所以先关了之前的，防止默认的 80 端口冲突</p>
+<h2 id="nginx-端口确认"><a href="#nginx-端口确认" class="headerlink" title="nginx 端口确认"></a>nginx 端口确认</h2><p>因为之前本地有一个 nginx，非 docker 的，也启动过，所以先关了之前的，防止默认的 80 端口冲突</p>
 <p>如果启动了，则关掉，这里我是 homebrew 安装的</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services stop nginx</span><br></pre></td></tr></table></figure>
 
 <p>其他方式的，如果是Linux 等</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -s stop</span><br></pre></td></tr></table></figure>
 
-<h1 id="使用-Nginx-镜像创建-Docker-容器"><a href="#使用-Nginx-镜像创建-Docker-容器" class="headerlink" title="使用 Nginx 镜像创建 Docker 容器"></a><strong>使用 Nginx 镜像创建 Docker 容器</strong></h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name my-nginx-container -p 80:80 -d nginx</span><br></pre></td></tr></table></figure>
+<h2 id="使用-Nginx-镜像创建-Docker-容器"><a href="#使用-Nginx-镜像创建-Docker-容器" class="headerlink" title="使用 Nginx 镜像创建 Docker 容器"></a><strong>使用 Nginx 镜像创建 Docker 容器</strong></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name my-nginx-container -p 80:80 -d nginx</span><br></pre></td></tr></table></figure>
 
 <p>启动之后，可以浏览器访问 <a target="_blank" rel="noopener" href="http://localhost/">http://localhost/</a> 查看是否启动成功</p>
-<h1 id="进入容器一探究竟"><a href="#进入容器一探究竟" class="headerlink" title="进入容器一探究竟"></a>进入容器一探究竟</h1><p>了解一下容器里面的配置，其实容器底层就是一个轻量级的 Linux 操作系统，然后包含一个 nginx 服务器</p>
+<h2 id="进入容器一探究竟"><a href="#进入容器一探究竟" class="headerlink" title="进入容器一探究竟"></a>进入容器一探究竟</h2><p>了解一下容器里面的配置，其实容器底层就是一个轻量级的 Linux 操作系统，然后包含一个 nginx 服务器</p>
 <p>进去的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it my-nginx-container /bin/bash</span><br></pre></td></tr></table></figure>
 
@@ -158,7 +158,7 @@
 <p>[!CAUTION]</p>
 <p>里面默认是没有安装 vim 的，所以我想编辑容器中的配置文件没成功，可以手动安装，也可以使用 <code>docker cp</code> 复制文件到本地编辑，再复制到容器，这里文章先跳过</p>
 </blockquote>
-<h1 id="使用docker-compose-一键启动"><a href="#使用docker-compose-一键启动" class="headerlink" title="使用docker-compose 一键启动"></a>使用docker-compose 一键启动</h1><h3 id="前提介绍"><a href="#前提介绍" class="headerlink" title="前提介绍"></a>前提介绍</h3><p>使用 <code>～</code> 时，你是在引用当前用户的主目录。<code>~</code> 是当前用户主目录的快捷方式。在 macOS 中，用户主目录通常位于 <code>/Users/huangben</code>，其中 <code>huangben</code> 是你的用户名。</p>
+<h2 id="使用docker-compose-一键启动"><a href="#使用docker-compose-一键启动" class="headerlink" title="使用docker-compose 一键启动"></a>使用docker-compose 一键启动</h2><h3 id="前提介绍"><a href="#前提介绍" class="headerlink" title="前提介绍"></a>前提介绍</h3><p>使用 <code>～</code> 时，你是在引用当前用户的主目录。<code>~</code> 是当前用户主目录的快捷方式。在 macOS 中，用户主目录通常位于 <code>/Users/huangben</code>，其中 <code>huangben</code> 是你的用户名。</p>
 <p>例如：</p>
 <p><code>~/Documents</code> 实际上指向 <code>/Users/username/Documents</code>。</p>
 <p>使用 <code>/</code> 时，你是在引用文件系统的根目录。</p>
@@ -191,10 +191,10 @@
  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>运行80 端口，显示成功    ！</p>
-<h1 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h1><p>修改了配置文件需要重启(静态文件不用重启)</p>
+<h2 id="重启docker-compose"><a href="#重启docker-compose" class="headerlink" title="重启docker-compose"></a>重启docker-compose</h2><p>修改了配置文件需要重启(静态文件不用重启)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose <span class="built_in">exec</span> web nginx -s reload</span><br></pre></td></tr></table></figure>
 
-<h1 id="停止docker-compose"><a href="#停止docker-compose" class="headerlink" title="停止docker-compose"></a>停止docker-compose</h1><h3 id="停止所有由-docker-compose-启动的服务。"><a href="#停止所有由-docker-compose-启动的服务。" class="headerlink" title="停止所有由 docker-compose 启动的服务。"></a>停止所有由 <code>docker-compose</code> 启动的服务。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose stop</span><br></pre></td></tr></table></figure>
+<h2 id="停止docker-compose"><a href="#停止docker-compose" class="headerlink" title="停止docker-compose"></a>停止docker-compose</h2><h3 id="停止所有由-docker-compose-启动的服务。"><a href="#停止所有由-docker-compose-启动的服务。" class="headerlink" title="停止所有由 docker-compose 启动的服务。"></a>停止所有由 <code>docker-compose</code> 启动的服务。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose stop</span><br></pre></td></tr></table></figure>
 
 <h3 id="停止特定服务"><a href="#停止特定服务" class="headerlink" title="停止特定服务"></a>停止特定服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose stop web</span><br></pre></td></tr></table></figure>
 
@@ -207,7 +207,7 @@
         </div>
           
         <div class="top-div">
-          <ol class="top-box"><li class="top-box-item top-box-level-1"><a class="top-box-link" href="#%E5%89%8D%E6%8F%90"><span class="top-box-text">前提</span></a></li><li class="top-box-item top-box-level-1"><a class="top-box-link" href="#%E7%A1%AE%E8%AE%A4docker-%E7%8E%AF%E5%A2%83"><span class="top-box-text">确认docker 环境</span></a></li><li class="top-box-item top-box-level-1"><a class="top-box-link" href="#%E5%90%AF%E5%8A%A8-docker"><span class="top-box-text">启动 docker</span></a></li><li class="top-box-item top-box-level-1"><a class="top-box-link" href="#%E9%95%9C%E5%83%8F"><span class="top-box-text">镜像</span></a></li><li class="top-box-item top-box-level-1"><a class="top-box-link" href="#nginx-%E7%AB%AF%E5%8F%A3%E7%A1%AE%E8%AE%A4"><span class="top-box-text">nginx 端口确认</span></a></li><li class="top-box-item top-box-level-1"><a class="top-box-link" href="#%E4%BD%BF%E7%94%A8-Nginx-%E9%95%9C%E5%83%8F%E5%88%9B%E5%BB%BA-Docker-%E5%AE%B9%E5%99%A8"><span class="top-box-text">使用 Nginx 镜像创建 Docker 容器</span></a></li><li class="top-box-item top-box-level-1"><a class="top-box-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8%E4%B8%80%E6%8E%A2%E7%A9%B6%E7%AB%9F"><span class="top-box-text">进入容器一探究竟</span></a></li><li class="top-box-item top-box-level-1"><a class="top-box-link" href="#%E4%BD%BF%E7%94%A8docker-compose-%E4%B8%80%E9%94%AE%E5%90%AF%E5%8A%A8"><span class="top-box-text">使用docker-compose 一键启动</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%89%8D%E6%8F%90%E4%BB%8B%E7%BB%8D"><span class="top-box-text">前提介绍</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%87%86%E5%A4%87%E7%8E%AF%E5%A2%83"><span class="top-box-text">准备环境</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%AE%9E%E9%99%85%E6%93%8D%E4%BD%9C"><span class="top-box-text">实际操作</span></a></li></ol></li></ol></li><li class="top-box-item top-box-level-1"><a class="top-box-link" href="#%E9%87%8D%E5%90%AF"><span class="top-box-text">重启</span></a></li><li class="top-box-item top-box-level-1"><a class="top-box-link" href="#%E5%81%9C%E6%AD%A2docker-compose"><span class="top-box-text">停止docker-compose</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%81%9C%E6%AD%A2%E6%89%80%E6%9C%89%E7%94%B1-docker-compose-%E5%90%AF%E5%8A%A8%E7%9A%84%E6%9C%8D%E5%8A%A1%E3%80%82"><span class="top-box-text">停止所有由 docker-compose 启动的服务。</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%81%9C%E6%AD%A2%E7%89%B9%E5%AE%9A%E6%9C%8D%E5%8A%A1"><span class="top-box-text">停止特定服务</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%AE%8C%E5%85%A8%E7%A7%BB%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="top-box-text">完全移除容器</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E6%A3%80%E6%B5%8B%E6%98%AF%E5%90%A6%E5%81%9C%E6%AD%A2"><span class="top-box-text">检测是否停止</span></a></li></ol></li></ol></li></ol>
+          <ol class="top-box"><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%89%8D%E6%8F%90"><span class="top-box-text">前提</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E7%A1%AE%E8%AE%A4docker-%E7%8E%AF%E5%A2%83"><span class="top-box-text">确认docker 环境</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%90%AF%E5%8A%A8-docker"><span class="top-box-text">启动 docker</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E9%95%9C%E5%83%8F"><span class="top-box-text">镜像</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#nginx-%E7%AB%AF%E5%8F%A3%E7%A1%AE%E8%AE%A4"><span class="top-box-text">nginx 端口确认</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BD%BF%E7%94%A8-Nginx-%E9%95%9C%E5%83%8F%E5%88%9B%E5%BB%BA-Docker-%E5%AE%B9%E5%99%A8"><span class="top-box-text">使用 Nginx 镜像创建 Docker 容器</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8%E4%B8%80%E6%8E%A2%E7%A9%B6%E7%AB%9F"><span class="top-box-text">进入容器一探究竟</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BD%BF%E7%94%A8docker-compose-%E4%B8%80%E9%94%AE%E5%90%AF%E5%8A%A8"><span class="top-box-text">使用docker-compose 一键启动</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%89%8D%E6%8F%90%E4%BB%8B%E7%BB%8D"><span class="top-box-text">前提介绍</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%87%86%E5%A4%87%E7%8E%AF%E5%A2%83"><span class="top-box-text">准备环境</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%AE%9E%E9%99%85%E6%93%8D%E4%BD%9C"><span class="top-box-text">实际操作</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E9%87%8D%E5%90%AFdocker-compose"><span class="top-box-text">重启docker-compose</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%81%9C%E6%AD%A2docker-compose"><span class="top-box-text">停止docker-compose</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%81%9C%E6%AD%A2%E6%89%80%E6%9C%89%E7%94%B1-docker-compose-%E5%90%AF%E5%8A%A8%E7%9A%84%E6%9C%8D%E5%8A%A1%E3%80%82"><span class="top-box-text">停止所有由 docker-compose 启动的服务。</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%81%9C%E6%AD%A2%E7%89%B9%E5%AE%9A%E6%9C%8D%E5%8A%A1"><span class="top-box-text">停止特定服务</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%AE%8C%E5%85%A8%E7%A7%BB%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="top-box-text">完全移除容器</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E6%A3%80%E6%B5%8B%E6%98%AF%E5%90%A6%E5%81%9C%E6%AD%A2"><span class="top-box-text">检测是否停止</span></a></li></ol></li></ol>
         </div>
           
       </div>
