@@ -6,7 +6,7 @@
   <link href="https://bighb.github.io/atom.xml" rel="self"/>
   
   <link href="https://bighb.github.io/"/>
-  <updated>2024-08-22T08:18:12.633Z</updated>
+  <updated>2024-08-26T09:14:32.751Z</updated>
   <id>https://bighb.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>自学技能的心得</title>
+    <link href="https://bighb.github.io/2024/08/26/2024-08-26/"/>
+    <id>https://bighb.github.io/2024/08/26/2024-08-26/</id>
+    <published>2024-08-26T08:06:58.000Z</published>
+    <updated>2024-08-26T09:14:32.751Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;聊一聊关于我自己自学新技术的心得。这里其实说技术不好，应该是技能，技多不压身的技。因为不限于开发语言&lt;/p&gt;
+&lt;h1 id=&quot;为什么学&quot;&gt;&lt;a href=&quot;#为什么学&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="日常" scheme="https://bighb.github.io/categories/%E6%97%A5%E5%B8%B8/"/>
+    
+    
+    <category term="心得" scheme="https://bighb.github.io/tags/%E5%BF%83%E5%BE%97/"/>
+    
+  </entry>
   
   <entry>
     <title>nginx 在 dcoker 中的使用</title>
