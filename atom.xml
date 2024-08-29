@@ -6,7 +6,7 @@
   <link href="https://bighb.github.io/atom.xml" rel="self"/>
   
   <link href="https://bighb.github.io/"/>
-  <updated>2024-08-29T07:49:59.633Z</updated>
+  <updated>2024-08-29T08:13:26.297Z</updated>
   <id>https://bighb.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://bighb.github.io/2024/08/29/2024-08-29/"/>
     <id>https://bighb.github.io/2024/08/29/2024-08-29/</id>
     <published>2024-08-29T02:56:23.000Z</published>
-    <updated>2024-08-29T07:49:59.633Z</updated>
+    <updated>2024-08-29T08:13:26.297Z</updated>
     
     
       
@@ -115,9 +115,9 @@
     
     
     
-    <category term="docker" scheme="https://bighb.github.io/tags/docker/"/>
-    
     <category term="nginx" scheme="https://bighb.github.io/tags/nginx/"/>
+    
+    <category term="docker" scheme="https://bighb.github.io/tags/docker/"/>
     
     <category term="docker-compose" scheme="https://bighb.github.io/tags/docker-compose/"/>
     
