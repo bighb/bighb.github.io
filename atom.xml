@@ -6,7 +6,7 @@
   <link href="https://bighb.github.io/atom.xml" rel="self"/>
   
   <link href="https://bighb.github.io/"/>
-  <updated>2024-08-29T04:18:38.028Z</updated>
+  <updated>2024-08-29T05:46:23.363Z</updated>
   <id>https://bighb.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://bighb.github.io/2024/08/29/2024-08-29/"/>
     <id>https://bighb.github.io/2024/08/29/2024-08-29/</id>
     <published>2024-08-29T02:56:23.000Z</published>
-    <updated>2024-08-29T04:18:38.028Z</updated>
+    <updated>2024-08-29T05:46:23.363Z</updated>
     
     
       
@@ -36,7 +36,7 @@
     
     
     
-    <category term="Java" scheme="https://bighb.github.io/tags/Java/"/>
+    <category term="java" scheme="https://bighb.github.io/tags/java/"/>
     
   </entry>
   
@@ -45,15 +45,18 @@
     <link href="https://bighb.github.io/2024/08/28/2024-08-28/"/>
     <id>https://bighb.github.io/2024/08/28/2024-08-28/</id>
     <published>2024-08-28T02:01:27.000Z</published>
-    <updated>2024-08-28T02:40:30.030Z</updated>
+    <updated>2024-08-29T05:46:03.625Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;iTerm2-Help&quot;&gt;&lt;a href=&quot;#iTerm2-Help&quot; class=&quot;headerlink&quot; title=&quot;iTerm2 Help&quot;&gt;&lt;/a&gt;iTerm2 Help&lt;/h1&gt;&lt;p&gt;下面记录平时经常用到，但是偶尔会忘记的一些终端操作&lt;/p&gt;
-&lt;h2</summary>
+    <summary type="html">&lt;p&gt;下面记录平时经常用到，但是偶尔会忘记的一些终端操作&lt;/p&gt;
+&lt;h2 id=&quot;输入操作&quot;&gt;&lt;a href=&quot;#输入操作&quot; class=&quot;headerlink&quot; title=&quot;输入操作&quot;&gt;&lt;/a&gt;输入操作&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th</summary>
         
       
     
