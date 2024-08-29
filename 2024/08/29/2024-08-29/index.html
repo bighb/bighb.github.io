@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+
+    
+<script>!function(){var e=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=localStorage.getItem("use-color-scheme")||"auto";("dark"===t||e&&"light"!==t)&&document.documentElement.classList.toggle("dark",!0)}()</script>
+    
+
+<meta charset="utf-8" >
+
+<title>Head First Java 笔记</title>
+<meta name="keywords" content="Head First Java 笔记, 可可的大树">
+<meta name="description" content="编译源码文件通过  javac  编译， 然后在 Java 虚拟机上执行编译过的字节码，下面是具体步骤
+User.java    &#x2F;&#x2F; 源码文件
+javac User.java   &#x2F;&#x2F; 编译命令
+U">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Head First Java 笔记">
+<meta property="og:description" content="编译源码文件通过  javac  编译， 然后在 Java 虚拟机上执行编译过的字节码，下面是具体步骤
+User.java    &#x2F;&#x2F; 源码文件
+javac User.java   &#x2F;&#x2F; 编译命令
+U">
+
+<link rel="shortcut icon" href="/images/favicon.ico">
+<link rel="stylesheet" href="/style/main.css">
+
+<meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="可可的大树" type="application/atom+xml">
+</head>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<body>
+  <div id="app" class="main">
+
+    <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://bighb.github.io">
+        <img class="avatar" src="/images/avatar.png" alt="logo" width="32px" height="32px">
+      </a>
+      <a href="https://bighb.github.io">
+        <h1 class="site-title">可可的大树</h1>
+      </a>
+    </div>
+    <div class="right">
+        <i class="icon menu-switch icon-menu-outline" ></i>
+    </div>
+  </div>
+</div>
+
+<div class="menu-container" style="height: 0;opacity: 0;">
+<nav class="menu-list">
+  
+    
+      <a href="/" class="menu purple-link">
+        首页
+      </a>
+    
+  
+    
+      <a href="/tags" class="menu purple-link">
+        标签
+      </a>
+    
+  
+    
+      <a href="/categories" class="menu purple-link">
+        分类
+      </a>
+    
+  
+    
+      <a href="/archives" class="menu purple-link">
+        归档
+      </a>
+    
+  
+    
+      <a href="/about" class="menu purple-link">
+        关于
+      </a>
+    
+  
+</nav>
+</div>
+
+
+  <div class="content-container">
+    <div class="post-detail">
+      
+      <h2 class="post-title">Head First Java 笔记</h2>
+      <div class="post-info post-detail-info">
+        <span><i class="icon icon-calendar-outline"></i> 2024-08-29</span>
+        
+          <span>
+          <i class="icon icon-pricetags-outline"></i>
+            
+              <a href="/tags/Java/">
+              Java
+                
+              </a>
+            
+          </span>
+        
+      </div>
+      <div class="post-content-wrapper">
+        <div class="post-content">
+          <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>源码文件通过  javac  编译， 然后在 Java 虚拟机上执行编译过的字节码，下面是具体步骤</p>
+<p>User.java    &#x2F;&#x2F; 源码文件</p>
+<p>javac User.java   &#x2F;&#x2F; 编译命令</p>
+<p>User.class  &#x2F;&#x2F; 字节码</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>.java 扩展名 是一个源文件.一个 <code>.java</code> 文件中<strong>只能有一个</strong> <code>public</code> 类，<strong>这是 Java 语言的一个规则</strong>。<strong>如果一个类被声明为 <code>public</code><strong>，则</strong>文件名必须与该类的名字完全一致（区分大小写）</strong>，并且文件扩展名必须为 <code>.java</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 文件名就是 Dog.java</span></span><br><span class="line">pubic <span class="keyword">class</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line"> <span class="comment">// 类的内容</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;This is the main method in MainExample.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于包（package）"><a href="#关于包（package）" class="headerlink" title="关于包（package）"></a>关于包（package）</h2><ul>
+<li><p><code>package</code> 语句<strong>必须是 Java 文件中的第一条语句</strong>（除非有注释或空行）。</p>
+</li>
+<li><p>如果你在类中没有指定 <code>package</code>，则该类属于<strong>默认包</strong>（default package），这意味着它没有明确的包名。默认包中的类无法被其他包中的类访问，因此在实际开发中，通常避免使用默认包。</p>
+</li>
+<li><p><strong>在同一个包中，文件名（即类名）必须是唯一的</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src</span><br><span class="line"> └── com</span><br><span class="line">      └── huangben</span><br><span class="line">           └── <span class="keyword">base</span></span><br><span class="line">                └── MyClass.java</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.huangben.base;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/com/example/Main.java</span></span><br><span class="line"><span class="keyword">package</span> com.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.user.User;</span><br><span class="line"><span class="keyword">import</span> com.example.order.Order;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Order</span>(<span class="string">&quot;Order #1234&quot;</span>);</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;Alice&quot;</span>, order);</span><br><span class="line">        user.printUserOrder();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="关于-main-方法"><a href="#关于-main-方法" class="headerlink" title="关于 main 方法"></a>关于 <code>main</code> 方法</h3><ul>
+<li><p><code>main</code> 方法的签名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>public</code>：表示这个方法可以被 Java 虚<strong>拟机（JVM）从任何地方</strong>调用。</li>
+<li><code>static</code>：表示该<strong>方法属于类本身</strong>，而不是类的实例，因此 <strong>JVM 不需要</strong>创建类的实例就可以调用它。</li>
+<li><code>void</code>：表示方法不返回任何值。</li>
+<li><code>String[] args</code>：用于接收命令行参数，是一个 <code>String</code> 类型的数组</li>
+</ul>
+</li>
+</ul>
+<h3 id="执行-main-方法"><a href="#执行-main-方法" class="headerlink" title="执行 main 方法"></a>执行 <code>main</code> 方法</h3><ul>
+<li>当你编译并运行这个文件时，你可以选择执行其中任何一个类的 <code>main</code> 方法。运行哪个类的 <code>main</code> 方法取决于你在命令行中指定的类名。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">javac MainExample.java  <span class="comment"># 编译文件</span></span><br><span class="line"></span><br><span class="line">java MainExample         <span class="comment"># 运行 MainExample 的 main 方法</span></span><br><span class="line">java AnotherClass        <span class="comment"># 运行 AnotherClass 的 main 方法</span></span><br><span class="line">java YetAnotherClass     <span class="comment"># 运行 YetAnotherClass 的 main 方法</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>普通的 Java 应用程序</strong>: <strong>必须有一个</strong> <code>main</code> 方法，JVM 通过这个方法启动程序。</p>
+<p><strong>特殊类型的 Java 应用程序</strong>: 如 Applet、Servlet、JavaFX 应用程序或使用测试框架时，<code>main</code> 方法可能不是必需的，因为有其他的启动机制。</p>
+<h2 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h2><p><strong>对象是靠类的模型塑造出来的实例</strong>，包含实例变量和方法</p>
+<p>java 是<strong>强类型语言</strong>，不管是对象，还是变量 、方法返回值、参数等都有类型</p>
+<h3 id="类和对象的区别"><a href="#类和对象的区别" class="headerlink" title="类和对象的区别"></a>类和对象的区别</h3><p><strong>类不是对象</strong>，是用来创造对象的模型</p>
+<h3 id="对象的声明、创建、赋值"><a href="#对象的声明、创建、赋值" class="headerlink" title="对象的声明、创建、赋值"></a>对象的声明、创建、赋值</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Dog myDog = new Dog();</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>虚拟机分配空间给 引用变量 myDog 并且 <strong>固定类型为 Dog 类型</strong> </li>
+<li>创建对象 new Dog()</li>
+<li>&#x3D; 赋值</li>
+</ol>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><ul>
+<li>方法必须声明返回类型，void 类型表示该方法不返回任何东西</li>
+<li>如果方法返回不是 void 类型，就<strong>必须</strong>要返回一个和方法声明<strong>类型相同</strong>的值</li>
+</ul>
+<h2 id="使用-Java-API-的步骤"><a href="#使用-Java-API-的步骤" class="headerlink" title="使用 Java API 的步骤"></a>使用 Java API 的步骤</h2><ul>
+<li><strong>导入包</strong>: 通过 <code>import</code> 语句导入需要使用的 Java API 类。</li>
+<li><strong>创建对象</strong>: 使用 <code>new</code> 关键字创建类的实例。</li>
+<li><strong>调用方法</strong>: 使用点操作符调用对象的方法或访问其属性。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Example</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 创建一个 ArrayList 对象</span></span><br><span class="line">        ArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用 add 方法添加元素到 ArrayList 中</span></span><br><span class="line">        list.add(<span class="string">&quot;Apple&quot;</span>);</span><br><span class="line">        list.add(<span class="string">&quot;Banana&quot;</span>);</span><br><span class="line">        list.add(<span class="string">&quot;Orange&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用 size 方法获取 ArrayList 中的元素数量</span></span><br><span class="line">        System.out.println(<span class="string">&quot;List size: &quot;</span> + list.size());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用 get 方法获取指定索引位置的元素</span></span><br><span class="line">        System.out.println(<span class="string">&quot;First element: &quot;</span> + list.get(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用 for-each 循环遍历 ArrayList 中的元素</span></span><br><span class="line">        <span class="keyword">for</span> (String fruit : list) &#123;</span><br><span class="line">            System.out.println(fruit);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="继承与多态"><a href="#继承与多态" class="headerlink" title="继承与多态"></a>继承与多态</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Animal makes a sound&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;    <span class="comment">// Dog 类继承自 Animal 类</span></span><br><span class="line">    <span class="meta">@Override</span>          <span class="comment">// 这里进行重写父类中的方法</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Dog barks&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Cat</span> <span class="keyword">extends</span> <span class="title class_">Animal</span> &#123;  <span class="comment">// Cat 类继承自 Animal 类</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Cat meows&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Animal</span> <span class="variable">myAnimal</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Animal</span>();  <span class="comment">// 父类对象</span></span><br><span class="line">        <span class="type">Animal</span> <span class="variable">myDog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Dog</span>();        <span class="comment">// Dog 继承自 Animal</span></span><br><span class="line">        <span class="type">Animal</span> <span class="variable">myCat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cat</span>();        <span class="comment">// Cat 继承自 Animal</span></span><br><span class="line"></span><br><span class="line">        myAnimal.makeSound();  <span class="comment">// 输出 &quot;Animal makes a sound&quot;</span></span><br><span class="line">        myDog.makeSound();      <span class="comment">// 输出 &quot;Dog barks&quot;</span></span><br><span class="line">        myCat.makeSound();      <span class="comment">// 输出 &quot;Cat meows&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>继承</strong>：子类可以继承父类的属性和方法，复用代码并扩展功能。<br>        <strong>不会继承 private 类型的变量跟方法</strong>！</li>
+<li><strong>多态</strong>：通过使用 <code>@Override</code>来表示，同一个方法可以在不同的子类中表现出不同的行为，体现出灵活性和可扩展性。<br>        <strong>方法可以覆盖，实例变量不行</strong>！</li>
+</ul>
+
+        </div>
+          
+        <div class="top-div">
+          <ol class="top-box"><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E7%BC%96%E8%AF%91"><span class="top-box-text">编译</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E7%BB%93%E6%9E%84"><span class="top-box-text">结构</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E5%85%B3%E4%BA%8E%E5%8C%85%EF%BC%88package%EF%BC%89"><span class="top-box-text">关于包（package）</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%85%B3%E4%BA%8E-main-%E6%96%B9%E6%B3%95"><span class="top-box-text">关于 main 方法</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E6%89%A7%E8%A1%8C-main-%E6%96%B9%E6%B3%95"><span class="top-box-text">执行 main 方法</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E6%80%BB%E7%BB%93"><span class="top-box-text">总结</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1"><span class="top-box-text">类与对象</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="top-box-text">类和对象的区别</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E5%88%9B%E5%BB%BA%E3%80%81%E8%B5%8B%E5%80%BC"><span class="top-box-text">对象的声明、创建、赋值</span></a></li><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E6%96%B9%E6%B3%95"><span class="top-box-text">方法</span></a></li></ol></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E4%BD%BF%E7%94%A8-Java-API-%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="top-box-text">使用 Java API 的步骤</span></a></li><li class="top-box-item top-box-level-2"><a class="top-box-link" href="#%E7%BB%A7%E6%89%BF%E4%B8%8E%E5%A4%9A%E6%80%81"><span class="top-box-text">继承与多态</span></a><ol class="top-box-child"><li class="top-box-item top-box-level-3"><a class="top-box-link" href="#%E6%80%BB%E7%BB%93-1"><span class="top-box-text">总结</span></a></li></ol></li></ol>
+        </div>
+          
+      </div>
+    </div>
+
+    
+      <div class="next-post">
+        <a class="purple-link" href="/2024/08/28/2024-08-28/">
+          <h3 class="post-title">
+            下一篇：iTrem2 Help
+          </h3>
+        </a>
+      </div>
+    
+  </div>
+
+
+
+
+
+
+
+
+
+
+<footer>
+  <div class="site-footer">
+    <div class="social-container">
+      
+        
+          <a aria-label="跳转至github" href="https://github.com/bighb" target="_blank">
+            <i class="icon icon-github"></i>
+          </a>
+          
+            
+        
+            
+        
+            
+        
+            
+        
+            
+    </div>
+    <span id="busuanzi_container_site_uv">
+      本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    
+      
+              
+      
+              
+  </div>
+</footer>
+
+
+</div>
+</div>
+<script id="hexo-configurations"> window.theme_config = {"image":{"lazyload_enable":true,"photo_zoom":"simple-lightbox"}}; window.is_post = true; </script>
+
+    <script src="/js/main.js"></script>
+
+    
+            
+  </body>
+
+  </html>

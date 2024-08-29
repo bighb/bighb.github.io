@@ -6,7 +6,7 @@
   <link href="https://bighb.github.io/atom.xml" rel="self"/>
   
   <link href="https://bighb.github.io/"/>
-  <updated>2024-08-28T02:40:30.030Z</updated>
+  <updated>2024-08-29T04:18:38.028Z</updated>
   <id>https://bighb.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Head First Java 笔记</title>
+    <link href="https://bighb.github.io/2024/08/29/2024-08-29/"/>
+    <id>https://bighb.github.io/2024/08/29/2024-08-29/</id>
+    <published>2024-08-29T02:56:23.000Z</published>
+    <updated>2024-08-29T04:18:38.028Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;编译&quot;&gt;&lt;a href=&quot;#编译&quot; class=&quot;headerlink&quot; title=&quot;编译&quot;&gt;&lt;/a&gt;编译&lt;/h2&gt;&lt;p&gt;源码文件通过  javac  编译， 然后在 Java 虚拟机上执行编译过的字节码，下面是具体步骤&lt;/p&gt;
+&lt;p&gt;User.java   </summary>
+        
+      
+    
+    
+    
+    
+    <category term="Java" scheme="https://bighb.github.io/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>iTrem2 Help</title>
