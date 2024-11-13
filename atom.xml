@@ -6,7 +6,7 @@
   <link href="https://bighb.github.io/atom.xml" rel="self"/>
   
   <link href="https://bighb.github.io/"/>
-  <updated>2024-09-19T07:23:44.044Z</updated>
+  <updated>2024-11-13T03:52:49.019Z</updated>
   <id>https://bighb.github.io/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在 macOS 上使用 MySQL</title>
+    <link href="https://bighb.github.io/2024/11/13/2024-11-13/"/>
+    <id>https://bighb.github.io/2024/11/13/2024-11-13/</id>
+    <published>2024-11-13T03:02:14.000Z</published>
+    <updated>2024-11-13T03:52:49.019Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]&lt;/p&gt;
+&lt;p&gt;自己电脑安装的东西多了经常容易忘掉自己通过什么方式安装的，会出现重复安装的情况，比如有可能是用</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="https://bighb.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="MySQL" scheme="https://bighb.github.io/tags/MySQL/"/>
+    
+    <category term="macOS" scheme="https://bighb.github.io/tags/macOS/"/>
+    
+    <category term="Python" scheme="https://bighb.github.io/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>Python 环境</title>
