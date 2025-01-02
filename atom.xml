@@ -6,7 +6,7 @@
   <link href="https://bighb.github.io/atom.xml" rel="self"/>
   
   <link href="https://bighb.github.io/"/>
-  <updated>2024-11-13T03:52:49.019Z</updated>
+  <updated>2025-01-02T03:39:39.066Z</updated>
   <id>https://bighb.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>年终总结</title>
+    <link href="https://bighb.github.io/2025/01/02/2025-01-02/"/>
+    <id>https://bighb.github.io/2025/01/02/2025-01-02/</id>
+    <published>2025-01-02T02:35:44.000Z</published>
+    <updated>2025-01-02T03:39:39.066Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;往年都是看别人的年终总结，今年(2024)是博客重启的一年，那年终总结也应该安排上。(元旦之前休了五天，本博客是在元旦上班来了写的)&lt;/p&gt;
+&lt;p&gt;刚开始不知道怎么写，从哪方面些，我本人其实不善于写文章，读书那会最怕就是写作文，那时候只要一听到说写作文，感觉好难受，本来字就</summary>
+        
+      
+    
+    
+    
+    
+    <category term="新年" scheme="https://bighb.github.io/tags/%E6%96%B0%E5%B9%B4/"/>
+    
+  </entry>
   
   <entry>
     <title>在 macOS 上使用 MySQL</title>
