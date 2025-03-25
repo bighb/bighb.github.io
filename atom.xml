@@ -6,7 +6,7 @@
   <link href="https://bighb.github.io/atom.xml" rel="self"/>
   
   <link href="https://bighb.github.io/"/>
-  <updated>2025-03-25T02:23:24.474Z</updated>
+  <updated>2025-03-25T03:08:33.442Z</updated>
   <id>https://bighb.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>二月和三月的生活记录</title>
+    <link href="https://bighb.github.io/2025/03/25/2025-03-25-1/"/>
+    <id>https://bighb.github.io/2025/03/25/2025-03-25-1/</id>
+    <published>2025-03-25T02:34:07.000Z</published>
+    <updated>2025-03-25T03:08:33.442Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;我过年上班的第一天写了一篇新年总结，今天自己刷到了，感触颇深，就是会发现之前提到的东西现在实现了，之前喜欢的东西，现在改变了。回头去看之前的文章，可以感受思想和心里的变化，蛮有意思，所以今天又来补充一篇二月和三月份生活记录的关键点。&lt;/p&gt;
+&lt;h3</summary>
+        
+      
+    
+    
+    
+    
+    <category term="生活" scheme="https://bighb.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+    <category term="日常" scheme="https://bighb.github.io/tags/%E6%97%A5%E5%B8%B8/"/>
+    
+  </entry>
   
   <entry>
     <title>Vue 3 项目环境配置全解析：Webpack vs Vite</title>
