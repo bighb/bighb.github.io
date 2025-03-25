@@ -6,7 +6,7 @@
   <link href="https://bighb.github.io/atom.xml" rel="self"/>
   
   <link href="https://bighb.github.io/"/>
-  <updated>2025-01-09T01:46:12.957Z</updated>
+  <updated>2025-03-25T02:23:24.474Z</updated>
   <id>https://bighb.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Vue 3 项目环境配置全解析：Webpack vs Vite</title>
+    <link href="https://bighb.github.io/2025/03/25/2025-03-25/"/>
+    <id>https://bighb.github.io/2025/03/25/2025-03-25/</id>
+    <published>2025-03-25T02:17:50.000Z</published>
+    <updated>2025-03-25T02:23:24.474Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;1-基础概念对比&quot;&gt;&lt;a href=&quot;#1-基础概念对比&quot; class=&quot;headerlink&quot; title=&quot;1. 基础概念对比&quot;&gt;&lt;/a&gt;1. 基础概念对比&lt;/h2&gt;&lt;h3 id=&quot;Webpack-环境变量&quot;&gt;&lt;a href=&quot;#Webpack-环境变量&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="vite" scheme="https://bighb.github.io/tags/vite/"/>
+    
+    <category term="webpack" scheme="https://bighb.github.io/tags/webpack/"/>
+    
+    <category term="环境变量" scheme="https://bighb.github.io/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>使用 Flask 和 Next.js 实现流式聊天应用</title>
