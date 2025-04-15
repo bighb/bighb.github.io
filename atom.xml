@@ -6,7 +6,7 @@
   <link href="https://bighb.github.io/atom.xml" rel="self"/>
   
   <link href="https://bighb.github.io/"/>
-  <updated>2025-03-25T03:15:50.701Z</updated>
+  <updated>2025-04-15T10:29:56.718Z</updated>
   <id>https://bighb.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>基于 Node.js 项目 Docker部署笔记</title>
+    <link href="https://bighb.github.io/2025/04/15/2025-04-15/"/>
+    <id>https://bighb.github.io/2025/04/15/2025-04-15/</id>
+    <published>2025-04-15T07:06:00.000Z</published>
+    <updated>2025-04-15T10:29:56.718Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;因为这是一个笔记，不是教程，所以内容记录的比较散，不具备教程逻辑。我只记录我认为的重点。&lt;/p&gt;
+&lt;p&gt;首先基于我这个笔记的开源项目地址：&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Docker" scheme="https://bighb.github.io/tags/Docker/"/>
+    
+    <category term="Node.js" scheme="https://bighb.github.io/tags/Node-js/"/>
+    
+    <category term="Express.js" scheme="https://bighb.github.io/tags/Express-js/"/>
+    
+  </entry>
   
   <entry>
     <title>二月和三月的生活记录</title>
