@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>可可的大树</title>
+  <icon>https://bighb.github.io/icon.png</icon>
+  
+  <link href="https://bighb.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://bighb.github.io/"/>
+  <updated>2025-07-18T09:56:16.874Z</updated>
+  <id>https://bighb.github.io/</id>
+  
+  <author>
+    <name>bighb</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GitHub Actions 从入门到实践</title>
+    <link href="https://bighb.github.io/2025/07/18/github-actions-comprehensive-guide/"/>
+    <id>https://bighb.github.io/2025/07/18/github-actions-comprehensive-guide/</id>
+    <published>2025-07-18T15:42:00.000Z</published>
+    <updated>2025-07-18T09:56:16.874Z</updated>
+    
+    
+    <summary type="html">深入了解 GitHub Actions 的核心概念</summary>
+    
+    
+    
+    <category term="技术" scheme="https://bighb.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="最佳实践" scheme="https://bighb.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
+    
+    <category term="GitHub Actions" scheme="https://bighb.github.io/tags/GitHub-Actions/"/>
+    
+    <category term="CI/CD" scheme="https://bighb.github.io/tags/CI-CD/"/>
+    
+    <category term="自动化" scheme="https://bighb.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    
+    <category term="DevOps" scheme="https://bighb.github.io/tags/DevOps/"/>
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://bighb.github.io/2025/07/18/2025-07-18-deploy-test/"/>
+    <id>https://bighb.github.io/2025/07/18/2025-07-18-deploy-test/</id>
+    <published>2025-07-18T09:56:16.874Z</published>
+    <updated>2025-07-18T09:56:16.874Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>GitHub Copilot 完整使用教程</title>
+    <link href="https://bighb.github.io/2025/07/10/2025-07-10/"/>
+    <id>https://bighb.github.io/2025/07/10/2025-07-10/</id>
+    <published>2025-07-10T17:15:08.000Z</published>
+    <updated>2025-07-18T09:56:16.874Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本教程将详细介绍如何在 VS Code 中使用 GitHub Copilot，包括自定义指令、Agent 模式、MCP 服务器配置以及最佳实践。&lt;/p&gt;
+&lt;h2 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目录&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="TypeScript" scheme="https://bighb.github.io/tags/TypeScript/"/>
+    
+    <category term="GitHub Copilot" scheme="https://bighb.github.io/tags/GitHub-Copilot/"/>
+    
+    <category term="VS Code" scheme="https://bighb.github.io/tags/VS-Code/"/>
+    
+    <category term="AI编程" scheme="https://bighb.github.io/tags/AI%E7%BC%96%E7%A8%8B/"/>
+    
+    <category term="开发工具" scheme="https://bighb.github.io/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+    <category term="Vue3" scheme="https://bighb.github.io/tags/Vue3/"/>
+    
+    <category term="自定义指令" scheme="https://bighb.github.io/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/"/>
+    
+    <category term="Agent模式" scheme="https://bighb.github.io/tags/Agent%E6%A8%A1%E5%BC%8F/"/>
+    
+    <category term="MCP服务器" scheme="https://bighb.github.io/tags/MCP%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+    <category term="提示词工程" scheme="https://bighb.github.io/tags/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/"/>
+    
+    <category term="最佳实践" scheme="https://bighb.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Yarn 版本梳理</title>
+    <link href="https://bighb.github.io/2025/04/16/2025-04-16/"/>
+    <id>https://bighb.github.io/2025/04/16/2025-04-16/</id>
+    <published>2025-04-16T11:06:25.000Z</published>
+    <updated>2025-07-18T09:56:16.874Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;当拷贝一个开源代码，或者自己用 Yarn 搭建一个前端项目，屡次被版本坑到了，但是之前了解过区别，毕竟 Yarn 到 2.x 之后名字都叫 &lt;a href=&quot;https://github.com/yarnpkg/berry&quot;&gt;berry&lt;/a&gt;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Yarn" scheme="https://bighb.github.io/tags/Yarn/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基于 Node.js 项目 Docker部署笔记</title>
+    <link href="https://bighb.github.io/2025/04/15/2025-04-15/"/>
+    <id>https://bighb.github.io/2025/04/15/2025-04-15/</id>
+    <published>2025-04-15T15:06:00.000Z</published>
+    <updated>2025-07-18T09:56:16.874Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;因为这是一个笔记，不是教程，所以内容记录的比较散，不具备教程逻辑。我只记录我认为的重点。&lt;/p&gt;
+&lt;p&gt;首先基于我这个笔记的开源项目地址：&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Docker" scheme="https://bighb.github.io/tags/Docker/"/>
+    
+    <category term="Node.js" scheme="https://bighb.github.io/tags/Node-js/"/>
+    
+    <category term="Express.js" scheme="https://bighb.github.io/tags/Express-js/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>二月和三月的生活记录</title>
+    <link href="https://bighb.github.io/2025/03/25/2025-03-25-1/"/>
+    <id>https://bighb.github.io/2025/03/25/2025-03-25-1/</id>
+    <published>2025-03-25T10:34:07.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;我过年上班的第一天写了一篇新年总结，今天自己刷到了，感触颇深，就是会发现之前提到的东西现在实现了，之前喜欢的东西，现在改变了。回头去看之前的文章，可以感受思想和心里的变化，蛮有意思，所以今天又来补充一篇二月和三月份生活记录的关键点。&lt;/p&gt;
+&lt;h3</summary>
+        
+      
+    
+    
+    
+    
+    <category term="生活" scheme="https://bighb.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+    <category term="日常" scheme="https://bighb.github.io/tags/%E6%97%A5%E5%B8%B8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue 3 项目环境配置全解析：Webpack vs Vite</title>
+    <link href="https://bighb.github.io/2025/03/25/2025-03-25/"/>
+    <id>https://bighb.github.io/2025/03/25/2025-03-25/</id>
+    <published>2025-03-25T10:17:50.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;1-基础概念对比&quot;&gt;&lt;a href=&quot;#1-基础概念对比&quot; class=&quot;headerlink&quot; title=&quot;1. 基础概念对比&quot;&gt;&lt;/a&gt;1. 基础概念对比&lt;/h2&gt;&lt;h3 id=&quot;Webpack-环境变量&quot;&gt;&lt;a href=&quot;#Webpack-环境变量&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="vite" scheme="https://bighb.github.io/tags/vite/"/>
+    
+    <category term="webpack" scheme="https://bighb.github.io/tags/webpack/"/>
+    
+    <category term="环境变量" scheme="https://bighb.github.io/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用 Flask 和 Next.js 实现流式聊天应用</title>
+    <link href="https://bighb.github.io/2025/01/08/2025-01-08/"/>
+    <id>https://bighb.github.io/2025/01/08/2025-01-08/</id>
+    <published>2025-01-08T17:29:41.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;1-技术栈&quot;&gt;&lt;a href=&quot;#1-技术栈&quot; class=&quot;headerlink&quot; title=&quot;1. 技术栈&quot;&gt;&lt;/a&gt;&lt;strong&gt;1.</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Flash" scheme="https://bighb.github.io/tags/Flash/"/>
+    
+    <category term="Next.js" scheme="https://bighb.github.io/tags/Next-js/"/>
+    
+    <category term="SSE" scheme="https://bighb.github.io/tags/SSE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>年终总结</title>
+    <link href="https://bighb.github.io/2025/01/02/2025-01-02/"/>
+    <id>https://bighb.github.io/2025/01/02/2025-01-02/</id>
+    <published>2025-01-02T10:35:44.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;往年都是看别人的年终总结，今年(2024)是博客重启的一年，那年终总结也应该安排上。(元旦之前休了五天，本博客是在元旦上班来了写的)&lt;/p&gt;
+&lt;p&gt;刚开始不知道怎么写，从哪方面些，我本人其实不善于写文章，读书那会最怕就是写作文，那时候只要一听到说写作文，感觉好难受，本来字就</summary>
+        
+      
+    
+    
+    
+    
+    <category term="新年" scheme="https://bighb.github.io/tags/%E6%96%B0%E5%B9%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在 macOS 上使用 MySQL</title>
+    <link href="https://bighb.github.io/2024/11/13/2024-11-13/"/>
+    <id>https://bighb.github.io/2024/11/13/2024-11-13/</id>
+    <published>2024-11-13T11:02:14.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;[!NOTE]&lt;/p&gt;
+&lt;p&gt;自己电脑安装的东西多了经常容易忘掉自己通过什么方式安装的，会出现重复安装的情况，比如有可能是用</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="https://bighb.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="MySQL" scheme="https://bighb.github.io/tags/MySQL/"/>
+    
+    <category term="macOS" scheme="https://bighb.github.io/tags/macOS/"/>
+    
+    <category term="Python" scheme="https://bighb.github.io/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python 环境</title>
+    <link href="https://bighb.github.io/2024/09/05/2024-09-05/"/>
+    <id>https://bighb.github.io/2024/09/05/2024-09-05/</id>
+    <published>2024-09-05T15:14:12.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Conda-虚拟环境管理总结&quot;&gt;&lt;a href=&quot;#Conda-虚拟环境管理总结&quot; class=&quot;headerlink&quot; title=&quot;Conda 虚拟环境管理总结&quot;&gt;&lt;/a&gt;Conda 虚拟环境管理总结&lt;/h1&gt;&lt;p&gt;当前我已经使用 vscode</summary>
+        
+      
+    
+    
+    
+    
+    <category term="python" scheme="https://bighb.github.io/tags/python/"/>
+    
+    <category term="conda" scheme="https://bighb.github.io/tags/conda/"/>
+    
+    <category term="Miniconda3" scheme="https://bighb.github.io/tags/Miniconda3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Head First Java 笔记</title>
+    <link href="https://bighb.github.io/2024/08/29/2024-08-29/"/>
+    <id>https://bighb.github.io/2024/08/29/2024-08-29/</id>
+    <published>2024-08-29T10:56:23.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;编译&quot;&gt;&lt;a href=&quot;#编译&quot; class=&quot;headerlink&quot; title=&quot;编译&quot;&gt;&lt;/a&gt;编译&lt;/h2&gt;&lt;p&gt;源码文件通过  javac  编译， 然后在 Java 虚拟机上执行编译过的字节码，下面是具体步骤&lt;/p&gt;
+&lt;p&gt;User.java   </summary>
+        
+      
+    
+    
+    
+    
+    <category term="java" scheme="https://bighb.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iTrem2 Help</title>
+    <link href="https://bighb.github.io/2024/08/28/2024-08-28/"/>
+    <id>https://bighb.github.io/2024/08/28/2024-08-28/</id>
+    <published>2024-08-28T10:01:27.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;下面记录平时经常用到，但是偶尔会忘记的一些终端操作&lt;/p&gt;
+&lt;h2 id=&quot;输入操作&quot;&gt;&lt;a href=&quot;#输入操作&quot; class=&quot;headerlink&quot; title=&quot;输入操作&quot;&gt;&lt;/a&gt;输入操作&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th</summary>
+        
+      
+    
+    
+    
+    
+    <category term="iTrem2" scheme="https://bighb.github.io/tags/iTrem2/"/>
+    
+    <category term="终端" scheme="https://bighb.github.io/tags/%E7%BB%88%E7%AB%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>自学技能的心得</title>
+    <link href="https://bighb.github.io/2024/08/26/2024-08-26/"/>
+    <id>https://bighb.github.io/2024/08/26/2024-08-26/</id>
+    <published>2024-08-26T16:06:58.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;聊一聊关于我自己自学新技术的心得。这里其实说技术不好，应该是技能，技多不压身的技。因为不限于开发语言&lt;/p&gt;
+&lt;h2 id=&quot;为什么学&quot;&gt;&lt;a href=&quot;#为什么学&quot; class=&quot;headerlink&quot; title=&quot;为什么学&quot;&gt;&lt;/a&gt;为什么学&lt;/h2&gt;&lt;h3</summary>
+        
+      
+    
+    
+    
+    <category term="日常" scheme="https://bighb.github.io/categories/%E6%97%A5%E5%B8%B8/"/>
+    
+    
+    <category term="心得" scheme="https://bighb.github.io/tags/%E5%BF%83%E5%BE%97/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nginx 在 dcoker 中的使用</title>
+    <link href="https://bighb.github.io/2024/08/22/2024-08-22/"/>
+    <id>https://bighb.github.io/2024/08/22/2024-08-22/</id>
+    <published>2024-08-22T14:53:19.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这篇文章是对 nginx 的一个实战应用，同时进行内容补充，结合了 docker 让使用 nginx 部署服务更方便&lt;/p&gt;
+&lt;h2 id=&quot;前提&quot;&gt;&lt;a href=&quot;#前提&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="nginx" scheme="https://bighb.github.io/tags/nginx/"/>
+    
+    <category term="docker" scheme="https://bighb.github.io/tags/docker/"/>
+    
+    <category term="docker-compose" scheme="https://bighb.github.io/tags/docker-compose/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>tunnelmole将本地网络暴露到公网</title>
+    <link href="https://bighb.github.io/2024/08/19/2024-08-19/"/>
+    <id>https://bighb.github.io/2024/08/19/2024-08-19/</id>
+    <published>2024-08-19T17:02:58.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h3&gt;&lt;p&gt;平时本地跑 demo，想给别人看，或者调试，因为不在一个局域网，所以不方便，这个工具就是干这个事的&lt;/p&gt;
+&lt;h3 id=&quot;地址&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="tunnelmole" scheme="https://bighb.github.io/tags/tunnelmole/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ngnix使用笔记</title>
+    <link href="https://bighb.github.io/2024/08/16/2024-08-16/"/>
+    <id>https://bighb.github.io/2024/08/16/2024-08-16/</id>
+    <published>2024-08-16T17:56:55.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;前提&quot;&gt;&lt;a href=&quot;#前提&quot; class=&quot;headerlink&quot; title=&quot;前提&quot;&gt;&lt;/a&gt;前提&lt;/h3&gt;&lt;p&gt;当前操作是 MAC M2环境&lt;/p&gt;
+&lt;p&gt;使用的是 Homebrew 安装 Ngnix &lt;/p&gt;
+&lt;h3</summary>
+        
+      
+    
+    
+    
+    
+    <category term="nginx" scheme="https://bighb.github.io/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java版本工具 sdkman 基础使用</title>
+    <link href="https://bighb.github.io/2024/08/15/2024-08-15/"/>
+    <id>https://bighb.github.io/2024/08/15/2024-08-15/</id>
+    <published>2024-08-15T13:50:37.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;sdkman使用&quot;&gt;&lt;a href=&quot;#sdkman使用&quot; class=&quot;headerlink&quot; title=&quot;sdkman使用&quot;&gt;&lt;/a&gt;&lt;strong&gt;sdkman使用&lt;/strong&gt;&lt;/h1&gt;&lt;h4 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Java" scheme="https://bighb.github.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Yarn 4 与 TypeScript</title>
+    <link href="https://bighb.github.io/2024/06/14/2024-06-14/"/>
+    <id>https://bighb.github.io/2024/06/14/2024-06-14/</id>
+    <published>2024-06-14T14:48:23.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;前提&quot;&gt;&lt;a href=&quot;#前提&quot; class=&quot;headerlink&quot; title=&quot;前提&quot;&gt;&lt;/a&gt;前提&lt;/h2&gt;&lt;p&gt;我的环境&lt;/p&gt;
+&lt;p&gt;MAC Pro M2 + VsCode&lt;/p&gt;
+&lt;p&gt;使用 Vite 创建一个</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Yarn4" scheme="https://bighb.github.io/tags/Yarn4/"/>
+    
+    <category term="TypeScript" scheme="https://bighb.github.io/tags/TypeScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基于vue-element-admin做离线主题切换</title>
+    <link href="https://bighb.github.io/2024/06/04/2024-06-04/"/>
+    <id>https://bighb.github.io/2024/06/04/2024-06-04/</id>
+    <published>2024-06-04T10:09:16.000Z</published>
+    <updated>2025-07-18T09:56:16.873Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;碰到一个需求，需要在内网环境下进行主题切换，本身项目模板使用的是&lt;strong&gt;vue-element-admin&lt;/strong&gt;。模板本身是支持主题切换，但是我们看到模板核心代码：&lt;code&gt;/src/components/ThemePicker/index.vue&lt;/</summary>
+        
+      
+    
+    
+    
+    
+    <category term="主题切换" scheme="https://bighb.github.io/tags/%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2/"/>
+    
+    <category term="离线" scheme="https://bighb.github.io/tags/%E7%A6%BB%E7%BA%BF/"/>
+    
+    <category term="elementUI" scheme="https://bighb.github.io/tags/elementUI/"/>
+    
+    <category term="raw-loader" scheme="https://bighb.github.io/tags/raw-loader/"/>
+    
+  </entry>
+  
+</feed>
