@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="因为这是一个笔记，不是教程，所以内容记录的比较散，不具备教程逻辑。我只记录我认为的重点。 首先基于我这个笔记的开源项目地址：express-demo 里面基于 express.js 框架搭建的一个标准的 node.js web 项目模板。也是为了复习 node.js 搭建学习使用的。  [!NOTE] 博客服务名 web 和 db 跟实际开源的名称不一致。意思一致  一、Docker基础知识123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 Node.js 项目 Docker部署笔记">
+<meta property="og:url" content="https://bighb.github.io/2025/04/15/2025-04-15/index.html">
+<meta property="og:site_name" content="可可的大树">
+<meta property="og:description" content="因为这是一个笔记，不是教程，所以内容记录的比较散，不具备教程逻辑。我只记录我认为的重点。 首先基于我这个笔记的开源项目地址：express-demo 里面基于 express.js 框架搭建的一个标准的 node.js web 项目模板。也是为了复习 node.js 搭建学习使用的。  [!NOTE] 博客服务名 web 和 db 跟实际开源的名称不一致。意思一致  一、Docker基础知识123">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-04-15T15:06:00.000Z">
+<meta property="article:modified_time" content="2025-07-22T03:48:26.559Z">
+<meta property="article:author" content="bighb">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Express.js">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>基于 Node.js 项目 Docker部署笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="可可的大树" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/04/16/2025-04-16/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/03/25/2025-03-25-1/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bighb.github.io/2025/04/15/2025-04-15/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bighb.github.io/2025/04/15/2025-04-15/&text=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bighb.github.io/2025/04/15/2025-04-15/&title=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bighb.github.io/2025/04/15/2025-04-15/&is_video=false&description=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于 Node.js 项目 Docker部署笔记&body=Check out this article: https://bighb.github.io/2025/04/15/2025-04-15/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bighb.github.io/2025/04/15/2025-04-15/&title=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bighb.github.io/2025/04/15/2025-04-15/&title=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bighb.github.io/2025/04/15/2025-04-15/&title=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bighb.github.io/2025/04/15/2025-04-15/&title=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bighb.github.io/2025/04/15/2025-04-15/&name=基于 Node.js 项目 Docker部署笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bighb.github.io/2025/04/15/2025-04-15/&t=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Docker%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">一、Docker基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-%E5%90%84%E7%BB%84%E4%BB%B6%E5%85%B3%E7%B3%BB%E5%9B%BE%E8%A7%A3"><span class="toc-number">1.1.</span> <span class="toc-text">Docker 各组件关系图解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%89%8B%E5%8A%A8%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F%E5%90%8E%E7%9A%84-Compose-%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">2. 手动构建镜像后的 Compose 使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3Dockerfile-%E5%92%8C%E9%95%9C%E5%83%8F%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">1.2.</span> <span class="toc-text">如何理解Dockerfile 和镜像的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%85%B3%E7%B3%BB%EF%BC%9A"><span class="toc-number">1.2.1.</span> <span class="toc-text">核心关系：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Docker%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE%E5%91%BD%E4%BB%A4%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">1. Docker启动项目命令区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Dockerfile%E5%85%B3%E9%94%AE%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">2. Dockerfile关键点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E5%8E%BB%E7%90%86%E8%A7%A3Docker-%E6%8C%82%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="toc-number">1.5.</span> <span class="toc-text">3. 如何去理解Docker 挂载机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%9A%E6%8C%82%E8%BD%BD%E6%98%AF%E5%85%B1%E4%BA%AB%E8%80%8C%E9%9D%9E%E5%A4%8D%E5%88%B6"><span class="toc-number">1.5.1.</span> <span class="toc-text">核心概念：挂载是共享而非复制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Docker-%E7%BD%91%E7%BB%9C%E4%B8%8E%E9%80%9A%E4%BF%A1%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E6%A2%B3%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">二、Docker 网络与通信知识体系梳理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9C%8D%E5%8A%A1%E5%90%8D%E7%A7%B0%EF%BC%88Service-Name%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">1.服务名称（Service Name）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%BD%91%E7%BB%9C%E5%90%8D%E7%A7%B0%EF%BC%88Network-Name%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">2.网络名称（Network Name）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9C%8D%E5%8A%A1%E5%90%8D%E7%A7%B0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%90%8D%E7%A7%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.3.</span> <span class="toc-text">3.服务名称与网络名称的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%AE%B9%E5%99%A8%E9%97%B4%E9%80%9A%E4%BF%A1"><span class="toc-number">2.4.</span> <span class="toc-text">4.容器间通信</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%90%8C%E4%B8%80%E7%BD%91%E7%BB%9C%E5%86%85%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="toc-number">2.4.0.1.</span> <span class="toc-text">1. 同一网络内的通信</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%B8%8D%E5%90%8C%E7%BD%91%E7%BB%9C%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="toc-number">2.4.0.2.</span> <span class="toc-text">2. 不同网络间的通信</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Docker%E5%AD%98%E5%82%A8%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">三、Docker存储与数据管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8D%B7%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="toc-number">3.1.</span> <span class="toc-text">1. 卷命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">3.2.</span> <span class="toc-text">2. 数据持久化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8-%E8%B0%83%E8%AF%95%E4%B8%8E%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">四、进入容器-调试与日志管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="toc-number">4.1.</span> <span class="toc-text">1. 容器管理命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%97%A5%E5%BF%97%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">2. 日志查看方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%B4%E6%8E%A5%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-number">4.3.</span> <span class="toc-text">3. 宿主机直接查看日志</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">5.</span> <span class="toc-text">五、常见问题与解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9E%84%E5%BB%BA%E5%A4%B1%E8%B4%A5"><span class="toc-number">5.1.</span> <span class="toc-text">1. 构建失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E9%97%AE%E9%A2%98"><span class="toc-number">5.2.</span> <span class="toc-text">2. 数据库连接问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%8E%88%E6%9D%83%E9%94%99%E8%AF%AF"><span class="toc-number">5.3.</span> <span class="toc-text">3. 授权错误</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">六、最佳实践总结</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        基于 Node.js 项目 Docker部署笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">bighb</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-04-15T15:06:00.000Z" class="dt-published" itemprop="datePublished">2025-04-15</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Docker/" rel="tag">Docker</a>, <a class="p-category" href="/tags/Express-js/" rel="tag">Express.js</a>, <a class="p-category" href="/tags/Node-js/" rel="tag">Node.js</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>因为这是一个笔记，不是教程，所以内容记录的比较散，不具备教程逻辑。我只记录我认为的重点。</p>
+<p>首先基于我这个笔记的开源项目地址：<a target="_blank" rel="noopener" href="https://github.com/bighb/express-demo">express-demo</a></p>
+<p>里面基于 <code>express.js</code> 框架搭建的一个标准的 node.js web 项目模板。也是为了复习 node.js 搭建学习使用的。</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>博客服务名 web 和 db 跟实际开源的名称不一致。意思一致</p>
+</blockquote>
+<h2 id="一、Docker基础知识"><a href="#一、Docker基础知识" class="headerlink" title="一、Docker基础知识"></a>一、Docker基础知识</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker-compose.yml</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.8&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">api:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">blog-api</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;3000:3000&quot;</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">env_file:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">.env</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NODE_ENV=production</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_HOST=mysql</span> <span class="comment"># 重要：在docker-compose网络中使用服务名作为主机名</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_USER=$&#123;DB_USER&#125;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_PASSWORD=$&#123;DB_PASSWORD&#125;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_NAME=$&#123;DB_NAME&#125;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_PORT=3306</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_CONNECTION_LIMIT=$&#123;DB_CONNECTION_LIMIT&#125;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">JWT_SECRET=$&#123;JWT_SECRET&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./logs:/app/logs</span> <span class="comment"># 持久化日志目录</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">blog-network</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">mysql:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:8.0</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">blog-mysql</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_ROOT_PASSWORD==$&#123;DB_PASSWORD&#125;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_DATABASE=$&#123;DB_NAME&#125;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;3306:3306&quot;</span> <span class="comment"># 建议移除 MySQL 的 ports: &quot;3306:3306&quot;，仅允许内网访问</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql-data:/var/lib/mysql</span> <span class="comment"># 持久化数据</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./mysql-init:/docker-entrypoint-initdb.d</span> <span class="comment"># 初始化SQL脚本（可选）</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">--default-authentication-plugin=mysql_native_password</span> <span class="string">--character-set-server=utf8mb4</span> <span class="string">--collation-server=utf8mb4_unicode_ci</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">blog-network</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">blog-network:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">mysql-data:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">local</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Docker-各组件关系图解"><a href="#Docker-各组件关系图解" class="headerlink" title="Docker 各组件关系图解"></a><strong>Docker 各组件关系图解</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[源码] → Dockerfile → docker build → [镜像] → docker run → [容器]</span><br><span class="line">                              │</span><br><span class="line">                              └── docker-compose.yml → 编排多个容器</span><br></pre></td></tr></table></figure>
+
+<p>这里其实我想搞懂的就是docker-compose.yml启动流程，还有构建细节 <code>build: .</code>。<code>build: .</code> 表示使用当前项目源码中的 Dockerfile 构建镜像。因为没有镜像就没有办法构建容器，而docker-compose 核心功能就是进行容器编排，因此假如说本地手动有现成的基于Dockerfile 构建的镜像，那其实docker-compose.yml 也可以直接使用，类似数据库服务中的<code>image: mysql:8.0</code></p>
+<ul>
+<li><strong>必要性</strong>：若没有 Dockerfile，Compose 无法自动生成镜像（除非直接使用现有镜像如 <code>mysql:8.0</code>）。</li>
+</ul>
+<h4 id="2-手动构建镜像后的-Compose-使用"><a href="#2-手动构建镜像后的-Compose-使用" class="headerlink" title="2. 手动构建镜像后的 Compose 使用"></a><strong>2. 手动构建镜像后的 Compose 使用</strong></h4><p>假设你已手动构建镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 手动构建镜像（假设镜像名为 my-api-image:v1）</span></span><br><span class="line">docker build -t my-api-image:v1 .</span><br></pre></td></tr></table></figure>
+
+<p>修改 <code>docker-compose.yml</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">services:</span><br><span class="line">  api:</span><br><span class="line">    image: my-api-image:v1  <span class="comment"># 直接引用已有镜像</span></span><br><span class="line">    <span class="comment"># 删除 build: . 配置</span></span><br><span class="line">    networks:</span><br><span class="line">      - blog-network</span><br><span class="line">  mysql:</span><br><span class="line">    image: mysql:8.0</span><br><span class="line">    networks:</span><br><span class="line">      - blog-network</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>结果</strong>：<code>docker-compose up -d</code> 会直接使用 <code>my-api-image:v1</code> 启动容器，<strong>无需重新构建</strong>。</li>
+<li><strong>通信能力</strong>：只要 <code>api</code> 和 <code>mysql</code> 在同一网络（<code>blog-network</code>），通信完全正常。</li>
+</ul>
+<h3 id="如何理解Dockerfile-和镜像的关系"><a href="#如何理解Dockerfile-和镜像的关系" class="headerlink" title="如何理解Dockerfile 和镜像的关系"></a>如何理解Dockerfile 和镜像的关系</h3><p><strong>Dockerfile</strong> 是一个文本文件，包含了一系列用于构建 Docker 镜像的指令（如 <code>FROM</code>、<code>RUN</code>、<code>COPY</code> 等）。<br><strong>镜像</strong> 是 Dockerfile 通过 <code>docker build</code> 命令生成的静态文件，它是一个分层的只读模板，用于创建容器。</p>
+<h4 id="核心关系："><a href="#核心关系：" class="headerlink" title="核心关系："></a>核心关系：</h4><ol>
+<li><strong>Dockerfile → 镜像</strong><ul>
+<li>Dockerfile 是“菜谱”，镜像是由它“烹饪”出的“成品”。</li>
+<li>每条 Dockerfile 指令会在镜像中生成一个只读层（Layer），最终多层叠加形成完整的镜像。</li>
+</ul>
+</li>
+<li><strong>镜像 → 容器</strong><ul>
+<li>镜像是静态模板，容器是镜像的动态运行实例。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[宿主机]</span><br><span class="line">  │</span><br><span class="line">  ├── docker-compose.yml → 定义多服务协作规则</span><br><span class="line">  ├── Dockerfile → 构建 web 项目 服务镜像</span><br><span class="line">  └── .<span class="built_in">env</span> → 提供敏感配置 </span><br><span class="line">       // 查看容器内实际环境变量</span><br><span class="line">       <span class="comment"># docker-compose exec api env</span></span><br><span class="line">       │</span><br><span class="line">       ▼</span><br><span class="line">[Docker 引擎]</span><br><span class="line">  │</span><br><span class="line">  ├── 构建镜像（web 服务）</span><br><span class="line">  │   └── 根据 Dockerfile 生成包含代码和依赖的镜像</span><br><span class="line">  │</span><br><span class="line">  ├── 拉取镜像（db 服务）</span><br><span class="line">  │   └── 直接使用 mysql:8.0 官方镜像</span><br><span class="line">  │</span><br><span class="line">  └── 创建并启动容器</span><br><span class="line">      ├── api 容器（运行 node dist/index.js）</span><br><span class="line">      └── mysql 容器（运行 MySQL 数据库）</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-Docker启动项目命令区别"><a href="#1-Docker启动项目命令区别" class="headerlink" title="1. Docker启动项目命令区别"></a>1. Docker启动项目命令区别</h3><table>
+<thead>
+<tr>
+<th align="left">行为</th>
+<th align="left"><code>docker-compose up -d --build</code></th>
+<th align="left"><code>docker-compose build</code> + <code>docker-compose up -d</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>镜像构建时机</strong></td>
+<td align="left">每次运行都强制重新构建</td>
+<td align="left">仅 <code>build</code> 时构建，<code>up</code> 直接使用现有镜像</td>
+</tr>
+<tr>
+<td align="left"><strong>是否自动启动服务</strong></td>
+<td align="left">是（构建后立即启动）</td>
+<td align="left">否（需手动运行 <code>up</code>）</td>
+</tr>
+<tr>
+<td align="left"><strong>缓存利用</strong></td>
+<td align="left">总是重新构建，可能忽略缓存</td>
+<td align="left">可手动控制是否清理缓存（如 <code>--no-cache</code>）</td>
+</tr>
+<tr>
+<td align="left"><strong>适用场景</strong></td>
+<td align="left">开发环境（代码频繁变更）</td>
+<td align="left">生产环境（构建和部署分离）</td>
+</tr>
+</tbody></table>
+<p>关闭占用端口的进程:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Linux/Mac</span></span><br><span class="line">lsof -i :3000</span><br><span class="line"><span class="built_in">kill</span> &lt;PID&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-Dockerfile关键点"><a href="#2-Dockerfile关键点" class="headerlink" title="2. Dockerfile关键点"></a>2. Dockerfile关键点</h3><ul>
+<li>构建依赖时要安装<strong>所有依赖</strong>而非仅生产依赖，因为项目是加入了 ts 类型，ts 只在开发环境使用</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ❌ 错误方式：导致tsc命令不可用</span></span><br><span class="line">RUN pnpm install --prod</span><br><span class="line"></span><br><span class="line"><span class="comment"># ✅ 正确方式：安装所有依赖</span></span><br><span class="line">RUN pnpm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建后再精简</span></span><br><span class="line">RUN pnpm build</span><br><span class="line">RUN pnpm prune --prod</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-如何去理解Docker-挂载机制"><a href="#3-如何去理解Docker-挂载机制" class="headerlink" title="3. 如何去理解Docker 挂载机制"></a>3. 如何去理解Docker 挂载机制</h3><p>Docker 挂载机制的核心：<strong>双向数据同步</strong></p>
+<h4 id="核心概念：挂载是共享而非复制"><a href="#核心概念：挂载是共享而非复制" class="headerlink" title="核心概念：挂载是共享而非复制"></a>核心概念：<strong>挂载是共享而非复制</strong></h4><ul>
+<li><strong>不是数据拷贝</strong>：挂载操作不会将文件复制到容器内，而是直接暴露宿主机的存储位置。</li>
+<li><strong>没有主从之分</strong>：宿主机和容器是平等的存储访问者，任何一方的修改都会影响另一方。</li>
+</ul>
+<p>Docker 的挂载分为两类，但数据同步逻辑相同：</p>
+<ol>
+<li><p><strong>卷挂载（Volume）</strong></p>
+<ul>
+<li>Docker 管理的存储位置（通常位于 <code>/var/lib/docker/volumes/</code>）</li>
+<li>示例：MySQL 数据持久化</li>
+</ul>
+</li>
+<li><p><strong>绑定挂载（Bind Mount）</strong></p>
+<ul>
+<li>直接挂载宿主机的文件或目录</li>
+<li>示例：Nginx 配置或静态资源挂载</li>
+</ul>
+<p>无论是哪种挂载方式，Docker 都会通过 Linux 内核的 <strong>联合文件系统（UnionFS）</strong> 实现以下机制：</p>
+<ul>
+<li><strong>挂载本质</strong>：将宿主机文件&#x2F;目录的 <strong>物理存储地址</strong> 映射到容器内。</li>
+<li><strong>数据同步</strong>：对挂载目录的读写操作，实际上是直接操作宿主机或卷的物理文件系统。</li>
+<li><strong>实时性</strong>：修改会立即生效（无需重启容器），因为双方共享同一块磁盘区域。</li>
+</ul>
+</li>
+</ol>
+<h2 id="二、Docker-网络与通信知识体系梳理"><a href="#二、Docker-网络与通信知识体系梳理" class="headerlink" title="二、Docker 网络与通信知识体系梳理"></a>二、Docker 网络与通信知识体系梳理</h2><h3 id="1-服务名称（Service-Name）"><a href="#1-服务名称（Service-Name）" class="headerlink" title="1.服务名称（Service Name）"></a>1.服务名称（<strong>Service Name）</strong></h3><p>在 <code>docker-compose.yml</code> 中定义的 <code>services</code> 名称（如 <code>web</code>、<code>db</code>）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">services:</span><br><span class="line">  web:      <span class="comment"># 服务名 = web</span></span><br><span class="line">    build: .</span><br><span class="line">  db:       <span class="comment"># 服务名 = db</span></span><br><span class="line">    image: mysql</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>容器内可通过 <code>http://web:3000</code> 或 <code>mysql://db:3306</code> 访问其他服务。</li>
+</ul>
+<h3 id="2-网络名称（Network-Name）"><a href="#2-网络名称（Network-Name）" class="headerlink" title="2.网络名称（Network Name）"></a>2.<strong>网络名称（Network Name）</strong></h3><p>在 <code>docker-compose.yml</code> 中自定义的网络（如 <code>blog-network</code>）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">networks:</span><br><span class="line">  backend-network:</span><br><span class="line">    driver: bridge</span><br><span class="line">services:</span><br><span class="line">  web:</span><br><span class="line">    networks:</span><br><span class="line">      - blog-network</span><br><span class="line">  db:</span><br><span class="line">    networks:</span><br><span class="line">      - blog-network</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-服务名称与网络名称的区别"><a href="#3-服务名称与网络名称的区别" class="headerlink" title="3.服务名称与网络名称的区别"></a>3.服务名称与网络名称的区别</h3><ol>
+<li><strong>网络名称 (<code>blog-network</code>)</strong>:<ul>
+<li>是通信基础设施，相当于一个虚拟局域网</li>
+<li>连接到同一网络的容器可以相互通信</li>
+<li>是容器间通信的媒介</li>
+</ul>
+</li>
+<li><strong>服务名称 (<code>db</code>)</strong>:<ul>
+<li>是容器在网络内的”主机名”(hostname)</li>
+<li>作为容器的网络标识符</li>
+<li>由Docker的内部DNS服务自动注册</li>
+</ul>
+</li>
+</ol>
+<p><strong>连接过程解析：</strong></p>
+<p>当你设置<code>DB_HOST=db</code>时，这里的流程是：</p>
+<ol>
+<li>web容器需要连接数据库</li>
+<li>web查找主机名为<code>mysql</code>的服务</li>
+<li>Docker网络的DNS服务将<code>db</code>解析为MySQL容器的IP地址,因为 <strong>db</strong> 跟 <strong>web</strong> 属于同一<strong>blog-network</strong>网络下</li>
+<li>连接建立</li>
+</ol>
+<p>这就好比：</p>
+<ul>
+<li><code>blog-network</code> &#x3D; 你家的WiFi网络</li>
+<li><code>mysql</code> &#x3D; 连接到该WiFi的一台设备的主机名</li>
+</ul>
+<h3 id="4-容器间通信"><a href="#4-容器间通信" class="headerlink" title="4.容器间通信"></a>4.容器间通信</h3><h5 id="1-同一网络内的通信"><a href="#1-同一网络内的通信" class="headerlink" title="1. 同一网络内的通信"></a><strong>1. 同一网络内的通信</strong></h5><ul>
+<li><p><strong>通过服务名访问</strong>：Docker 内置 DNS 自动解析服务名为容器 IP。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 web 容器中访问 db 服务</span></span><br><span class="line">ping db</span><br><span class="line">curl http://db:3306</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>通过容器名访问</strong>（不推荐）：需显式指定 <code>container_name</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">db:</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">mysql-db</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 web 容器中访问</span></span><br><span class="line">ping mysql-db</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="2-不同网络间的通信"><a href="#2-不同网络间的通信" class="headerlink" title="2. 不同网络间的通信"></a><strong>2. 不同网络间的通信</strong></h5><ul>
+<li><p><strong>方案 1</strong>：将容器加入多个网络。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">frontend-network</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">backend-network</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>方案 2</strong>：通过网关 IP 访问（需知道目标网络网关地址）。</p>
+</li>
+</ul>
+<h2 id="三、Docker存储与数据管理"><a href="#三、Docker存储与数据管理" class="headerlink" title="三、Docker存储与数据管理"></a>三、Docker存储与数据管理</h2><h3 id="1-卷命名规则"><a href="#1-卷命名规则" class="headerlink" title="1. 卷命名规则"></a>1. 卷命名规则</h3><ul>
+<li><strong>格式</strong>：<code>项目名称_卷名称</code></li>
+<li><strong>示例</strong>：<code>my-blog-api_mysql-data</code></li>
+<li><strong>好处</strong>：避免不同项目间卷名冲突，自动组织和分类</li>
+</ul>
+<h3 id="2-数据持久化"><a href="#2-数据持久化" class="headerlink" title="2. 数据持久化"></a>2. 数据持久化</h3><ul>
+<li>数据库数据：<code>mysql-data:/var/lib/mysql</code></li>
+<li>日志文件：<code>./logs:/app/logs</code></li>
+</ul>
+<h2 id="四、进入容器-调试与日志管理"><a href="#四、进入容器-调试与日志管理" class="headerlink" title="四、进入容器-调试与日志管理"></a>四、进入容器-调试与日志管理</h2><h3 id="1-容器管理命令"><a href="#1-容器管理命令" class="headerlink" title="1. 容器管理命令"></a>1. 容器管理命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入API（node.js 项目）容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -it blog-api sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入MySQL容器并连接数据库</span></span><br><span class="line">docker <span class="built_in">exec</span> -it blog-mysql bash</span><br><span class="line">mysql -uroot -p <span class="comment">#再输入密码就进去了</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-日志查看方法"><a href="#2-日志查看方法" class="headerlink" title="2. 日志查看方法"></a>2. 日志查看方法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看所有服务日志</span></span><br><span class="line">docker-compose logs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看特定服务日志</span></span><br><span class="line">docker-compose logs api</span><br><span class="line">docker-compose logs mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实时跟踪日志</span></span><br><span class="line">docker-compose logs -f api</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-宿主机直接查看日志"><a href="#3-宿主机直接查看日志" class="headerlink" title="3. 宿主机直接查看日志"></a>3. 宿主机直接查看日志</h3><p>因为在<code>docker-compose.yml</code>中做了挂载，所以可以在宿主中直接查看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> ./logs/combined.log</span><br></pre></td></tr></table></figure>
+
+<h2 id="五、常见问题与解决方案"><a href="#五、常见问题与解决方案" class="headerlink" title="五、常见问题与解决方案"></a>五、常见问题与解决方案</h2><h3 id="1-构建失败"><a href="#1-构建失败" class="headerlink" title="1. 构建失败"></a>1. 构建失败</h3><ul>
+<li><strong>问题</strong>：<code>tsc: not found</code> - TypeScript编译失败</li>
+<li><strong>原因</strong>：Dockerfile中只安装了生产依赖</li>
+<li><strong>解决方案</strong>：修改为安装所有依赖<code>pnpm install</code></li>
+</ul>
+<h3 id="2-数据库连接问题"><a href="#2-数据库连接问题" class="headerlink" title="2. 数据库连接问题"></a>2. 数据库连接问题</h3><ul>
+<li><strong>问题</strong>：<code>connect ECONNREFUSED 192.168.148.2:3306</code></li>
+<li>解决方案：<ul>
+<li>检查MySQL容器是否正常启动</li>
+<li>确认环境变量配置正确</li>
+<li>添加MySQL健康检查，确保API服务在MySQL就绪后启动</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-授权错误"><a href="#3-授权错误" class="headerlink" title="3. 授权错误"></a>3. 授权错误</h3><ul>
+<li><strong>问题</strong>：<code>Access denied for user &#39;root&#39;@&#39;192.168.148.3&#39;</code></li>
+<li>解决方案：<ul>
+<li>检查<code>.env</code>文件中的数据库凭据</li>
+<li>修复MySQL环境变量中的额外等号：<code>MYSQL_ROOT_PASSWORD==$&#123;DB_PASSWORD&#125;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="六、最佳实践总结"><a href="#六、最佳实践总结" class="headerlink" title="六、最佳实践总结"></a>六、最佳实践总结</h2><ol>
+<li><strong>网络配置</strong>：使用自定义网络，通过服务名互相访问</li>
+<li><strong>数据持久化</strong>：使用命名卷保存重要数据</li>
+<li><strong>环境变量</strong>：使用<code>.env</code>文件集中管理敏感配置</li>
+<li><strong>构建优化</strong>：构建时安装全部依赖，运行时精简</li>
+<li><strong>日志管理</strong>：将日志挂载到宿主机便于查看和分析</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/categories/">分类</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Docker%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">一、Docker基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-%E5%90%84%E7%BB%84%E4%BB%B6%E5%85%B3%E7%B3%BB%E5%9B%BE%E8%A7%A3"><span class="toc-number">1.1.</span> <span class="toc-text">Docker 各组件关系图解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%89%8B%E5%8A%A8%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F%E5%90%8E%E7%9A%84-Compose-%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">2. 手动构建镜像后的 Compose 使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3Dockerfile-%E5%92%8C%E9%95%9C%E5%83%8F%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">1.2.</span> <span class="toc-text">如何理解Dockerfile 和镜像的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%85%B3%E7%B3%BB%EF%BC%9A"><span class="toc-number">1.2.1.</span> <span class="toc-text">核心关系：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Docker%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE%E5%91%BD%E4%BB%A4%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">1. Docker启动项目命令区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Dockerfile%E5%85%B3%E9%94%AE%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">2. Dockerfile关键点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E5%8E%BB%E7%90%86%E8%A7%A3Docker-%E6%8C%82%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="toc-number">1.5.</span> <span class="toc-text">3. 如何去理解Docker 挂载机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%9A%E6%8C%82%E8%BD%BD%E6%98%AF%E5%85%B1%E4%BA%AB%E8%80%8C%E9%9D%9E%E5%A4%8D%E5%88%B6"><span class="toc-number">1.5.1.</span> <span class="toc-text">核心概念：挂载是共享而非复制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Docker-%E7%BD%91%E7%BB%9C%E4%B8%8E%E9%80%9A%E4%BF%A1%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E6%A2%B3%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">二、Docker 网络与通信知识体系梳理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9C%8D%E5%8A%A1%E5%90%8D%E7%A7%B0%EF%BC%88Service-Name%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">1.服务名称（Service Name）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%BD%91%E7%BB%9C%E5%90%8D%E7%A7%B0%EF%BC%88Network-Name%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">2.网络名称（Network Name）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9C%8D%E5%8A%A1%E5%90%8D%E7%A7%B0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%90%8D%E7%A7%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.3.</span> <span class="toc-text">3.服务名称与网络名称的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%AE%B9%E5%99%A8%E9%97%B4%E9%80%9A%E4%BF%A1"><span class="toc-number">2.4.</span> <span class="toc-text">4.容器间通信</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%90%8C%E4%B8%80%E7%BD%91%E7%BB%9C%E5%86%85%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="toc-number">2.4.0.1.</span> <span class="toc-text">1. 同一网络内的通信</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%B8%8D%E5%90%8C%E7%BD%91%E7%BB%9C%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="toc-number">2.4.0.2.</span> <span class="toc-text">2. 不同网络间的通信</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Docker%E5%AD%98%E5%82%A8%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">三、Docker存储与数据管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8D%B7%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="toc-number">3.1.</span> <span class="toc-text">1. 卷命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">3.2.</span> <span class="toc-text">2. 数据持久化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8-%E8%B0%83%E8%AF%95%E4%B8%8E%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">四、进入容器-调试与日志管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="toc-number">4.1.</span> <span class="toc-text">1. 容器管理命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%97%A5%E5%BF%97%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">2. 日志查看方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%B4%E6%8E%A5%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-number">4.3.</span> <span class="toc-text">3. 宿主机直接查看日志</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">5.</span> <span class="toc-text">五、常见问题与解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9E%84%E5%BB%BA%E5%A4%B1%E8%B4%A5"><span class="toc-number">5.1.</span> <span class="toc-text">1. 构建失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E9%97%AE%E9%A2%98"><span class="toc-number">5.2.</span> <span class="toc-text">2. 数据库连接问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%8E%88%E6%9D%83%E9%94%99%E8%AF%AF"><span class="toc-number">5.3.</span> <span class="toc-text">3. 授权错误</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">六、最佳实践总结</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bighb.github.io/2025/04/15/2025-04-15/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bighb.github.io/2025/04/15/2025-04-15/&text=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bighb.github.io/2025/04/15/2025-04-15/&title=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bighb.github.io/2025/04/15/2025-04-15/&is_video=false&description=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=基于 Node.js 项目 Docker部署笔记&body=Check out this article: https://bighb.github.io/2025/04/15/2025-04-15/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bighb.github.io/2025/04/15/2025-04-15/&title=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bighb.github.io/2025/04/15/2025-04-15/&title=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bighb.github.io/2025/04/15/2025-04-15/&title=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bighb.github.io/2025/04/15/2025-04-15/&title=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bighb.github.io/2025/04/15/2025-04-15/&name=基于 Node.js 项目 Docker部署笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bighb.github.io/2025/04/15/2025-04-15/&t=基于 Node.js 项目 Docker部署笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2025
+    bighb
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

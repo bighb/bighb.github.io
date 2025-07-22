@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这篇文章是对 nginx 的一个实战应用，同时进行内容补充，结合了 docker 让使用 nginx 部署服务更方便 前提操作环境 M2  使用的是 Homebrew 安装 Ngnix 因为是上一篇的实战介绍，因此省略理论步骤，直接说具体操作步骤 需求就是将本地前端的项目映射到本地 docker 中的 nginx 中，这样当前本地前端文件修改会实时反馈到 nginx 的服务器中，不用手动拷贝文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx 在 dcoker 中的使用">
+<meta property="og:url" content="https://bighb.github.io/2024/08/22/2024-08-22/index.html">
+<meta property="og:site_name" content="可可的大树">
+<meta property="og:description" content="这篇文章是对 nginx 的一个实战应用，同时进行内容补充，结合了 docker 让使用 nginx 部署服务更方便 前提操作环境 M2  使用的是 Homebrew 安装 Ngnix 因为是上一篇的实战介绍，因此省略理论步骤，直接说具体操作步骤 需求就是将本地前端的项目映射到本地 docker 中的 nginx 中，这样当前本地前端文件修改会实时反馈到 nginx 的服务器中，不用手动拷贝文件">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-08-22T14:53:19.000Z">
+<meta property="article:modified_time" content="2025-07-22T03:48:26.559Z">
+<meta property="article:author" content="bighb">
+<meta property="article:tag" content="nginx">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="docker-compose">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>nginx 在 dcoker 中的使用</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="可可的大树" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/08/26/2024-08-26/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/08/19/2024-08-19/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bighb.github.io/2024/08/22/2024-08-22/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bighb.github.io/2024/08/22/2024-08-22/&text=nginx 在 dcoker 中的使用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bighb.github.io/2024/08/22/2024-08-22/&title=nginx 在 dcoker 中的使用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bighb.github.io/2024/08/22/2024-08-22/&is_video=false&description=nginx 在 dcoker 中的使用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=nginx 在 dcoker 中的使用&body=Check out this article: https://bighb.github.io/2024/08/22/2024-08-22/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bighb.github.io/2024/08/22/2024-08-22/&title=nginx 在 dcoker 中的使用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bighb.github.io/2024/08/22/2024-08-22/&title=nginx 在 dcoker 中的使用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bighb.github.io/2024/08/22/2024-08-22/&title=nginx 在 dcoker 中的使用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bighb.github.io/2024/08/22/2024-08-22/&title=nginx 在 dcoker 中的使用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bighb.github.io/2024/08/22/2024-08-22/&name=nginx 在 dcoker 中的使用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bighb.github.io/2024/08/22/2024-08-22/&t=nginx 在 dcoker 中的使用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E6%8F%90"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AE%E8%AE%A4docker-%E7%8E%AF%E5%A2%83"><span class="toc-number">2.</span> <span class="toc-text">确认docker 环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-docker"><span class="toc-number">3.</span> <span class="toc-text">启动 docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%95%9C%E5%83%8F"><span class="toc-number">4.</span> <span class="toc-text">镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx-%E7%AB%AF%E5%8F%A3%E7%A1%AE%E8%AE%A4"><span class="toc-number">5.</span> <span class="toc-text">nginx 端口确认</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Nginx-%E9%95%9C%E5%83%8F%E5%88%9B%E5%BB%BA-Docker-%E5%AE%B9%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">使用 Nginx 镜像创建 Docker 容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8%E4%B8%80%E6%8E%A2%E7%A9%B6%E7%AB%9F"><span class="toc-number">7.</span> <span class="toc-text">进入容器一探究竟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8docker-compose-%E4%B8%80%E9%94%AE%E5%90%AF%E5%8A%A8"><span class="toc-number">8.</span> <span class="toc-text">使用docker compose 一键启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90%E4%BB%8B%E7%BB%8D"><span class="toc-number">8.1.</span> <span class="toc-text">前提介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%86%E5%8F%B2%E5%8E%9F%E5%9B%A0"><span class="toc-number">8.2.</span> <span class="toc-text">历史原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E7%8E%AF%E5%A2%83"><span class="toc-number">8.3.</span> <span class="toc-text">准备环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E6%93%8D%E4%BD%9C"><span class="toc-number">8.4.</span> <span class="toc-text">实际操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%90%AFdocker-compose"><span class="toc-number">9.</span> <span class="toc-text">重启docker compose</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2docker-compose"><span class="toc-number">10.</span> <span class="toc-text">停止docker compose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E6%89%80%E6%9C%89%E7%94%B1-docker-compose-%E5%90%AF%E5%8A%A8%E7%9A%84%E6%9C%8D%E5%8A%A1%E3%80%82"><span class="toc-number">10.1.</span> <span class="toc-text">停止所有由 docker compose 启动的服务。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E7%89%B9%E5%AE%9A%E6%9C%8D%E5%8A%A1"><span class="toc-number">10.2.</span> <span class="toc-text">停止特定服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E5%85%A8%E7%A7%BB%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="toc-number">10.3.</span> <span class="toc-text">完全移除容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E6%98%AF%E5%90%A6%E5%81%9C%E6%AD%A2"><span class="toc-number">10.4.</span> <span class="toc-text">检测是否停止</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        nginx 在 dcoker 中的使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">bighb</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-08-22T14:53:19.000Z" class="dt-published" itemprop="datePublished">2024-08-22</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/docker/" rel="tag">docker</a>, <a class="p-category" href="/tags/docker-compose/" rel="tag">docker-compose</a>, <a class="p-category" href="/tags/nginx/" rel="tag">nginx</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>这篇文章是对 nginx 的一个实战应用，同时进行内容补充，结合了 docker 让使用 nginx 部署服务更方便</p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>操作环境 M2 </p>
+<p>使用的是 Homebrew 安装 Ngnix</p>
+<p>因为是上一篇的实战介绍，因此省略理论步骤，直接说具体操作步骤</p>
+<p>需求就是将本地前端的项目映射到本地 docker 中的 nginx 中，这样当前本地前端文件修改会实时反馈到 nginx 的服务器中，不用手动拷贝文件</p>
+<h2 id="确认docker-环境"><a href="#确认docker-环境" class="headerlink" title="确认docker 环境"></a>确认docker 环境</h2><p>判断是否已经启动了 docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure>
+
+<p>如果 Docker 已经启动并正常运行，你会看到 Docker 的详细信息输出。如果 Docker 未启动或有问题，你将会看到相应的错误消息</p>
+<h2 id="启动-docker"><a href="#启动-docker" class="headerlink" title="启动 docker"></a>启动 docker</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open -a Docker</span><br></pre></td></tr></table></figure>
+
+<p>这将启动 Docker Desktop。如果你已经安装并配置好了 Docker Desktop，它会开始启动 Docker 引擎</p>
+<h2 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h2><p>查看当前本地安装的镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+
+<p>我之前安装过，如果没有安装，使用命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
+
+<h2 id="nginx-端口确认"><a href="#nginx-端口确认" class="headerlink" title="nginx 端口确认"></a>nginx 端口确认</h2><p>因为之前本地有一个 nginx，非 docker 的，也启动过，所以先关了之前的，防止默认的 80 端口冲突</p>
+<p>如果启动了，则关掉，这里我是 homebrew 安装的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services stop nginx</span><br></pre></td></tr></table></figure>
+
+<p>其他方式的，如果是Linux 等</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nginx -s stop</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-Nginx-镜像创建-Docker-容器"><a href="#使用-Nginx-镜像创建-Docker-容器" class="headerlink" title="使用 Nginx 镜像创建 Docker 容器"></a><strong>使用 Nginx 镜像创建 Docker 容器</strong></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name my-nginx-container -p 80:80 -d nginx</span><br></pre></td></tr></table></figure>
+
+<p>启动之后，可以浏览器访问 <a target="_blank" rel="noopener" href="http://localhost/">http://localhost/</a> 查看是否启动成功</p>
+<h2 id="进入容器一探究竟"><a href="#进入容器一探究竟" class="headerlink" title="进入容器一探究竟"></a>进入容器一探究竟</h2><p>了解一下容器里面的配置，其实容器底层就是一个轻量级的 Linux 操作系统，然后包含一个 nginx 服务器</p>
+<p>进去的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it my-nginx-container /bin/bash</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!CAUTION]</p>
+<p>里面默认是没有安装 vim 的，所以我想编辑容器中的配置文件没成功，可以手动安装，也可以使用 <code>docker cp</code> 复制文件到本地编辑，再复制到容器，这里文章先跳过</p>
+</blockquote>
+<h2 id="使用docker-compose-一键启动"><a href="#使用docker-compose-一键启动" class="headerlink" title="使用docker compose 一键启动"></a>使用docker compose 一键启动</h2><h3 id="前提介绍"><a href="#前提介绍" class="headerlink" title="前提介绍"></a>前提介绍</h3><p>使用 <code>～</code> 时，你是在引用当前用户的主目录。<code>~</code> 是当前用户主目录的快捷方式。在 macOS 中，用户主目录通常位于 <code>/Users/huangben</code>，其中 <code>huangben</code> 是你的用户名。</p>
+<p>例如：</p>
+<p><code>~/Documents</code> 实际上指向 <code>/Users/username/Documents</code>。</p>
+<p>使用 <code>/</code> 时，你是在引用文件系统的根目录。</p>
+<h3 id="历史原因"><a href="#历史原因" class="headerlink" title="历史原因"></a>历史原因</h3><p> <code>docker compose</code> 和 <code>docker-compose</code> 是两个不同的命令。</p>
+<ol>
+<li><code>docker compose</code>：<ul>
+<li>这是 Docker CLI 的一个子命令，集成在 Docker CLI 中。</li>
+<li>从 Docker 版本 20.10 开始，Docker CLI 中包含了 <code>docker compose</code> 命令。</li>
+<li>你可以通过 <code>docker compose version</code> 查看版本信息。</li>
+</ul>
+</li>
+<li><code>docker-compose</code>：<ul>
+<li>这是一个独立的工具，通常作为一个单独的二进制文件安装。</li>
+<li>你可以通过 <code>docker-compose --version</code> 查看版本信息。</li>
+</ul>
+</li>
+</ol>
+<p>这两个命令的功能基本相同，但 <code>docker compose</code> 是 Docker CLI 的一部分，而 <code>docker-compose</code> 是一个独立的工具。</p>
+<p>如果你希望使用独立的 <code>docker-compose</code> 工具，可以通过 Homebrew 或其他方式安装它。</p>
+<p>推荐 <code>docker compose</code></p>
+<h3 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h3><p>因为之前my-nginx-container ，所以先删除掉，避免后面容器名称冲突</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">rm</span> my-nginx-container</span><br></pre></td></tr></table></figure>
+
+<h3 id="实际操作"><a href="#实际操作" class="headerlink" title="实际操作"></a>实际操作</h3><ol>
+<li>在当前<code>～</code>下面创建一个目录 <code>nginx-project</code> ,用来存放接下来的网站内容和配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">└── nginx-project/</span><br><span class="line">│    └── docker-compose.yml # 核心文件 来管理 Nginx 容器并挂载 website 和 nginx 目录</span><br><span class="line">│    └── website/           # 用来映射到容器中的网站内容，可以要可以不要</span><br><span class="line">│    └── nginx/                </span><br><span class="line">│        ├──  default.conf  # 用来映射到容器中的配置文件  </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker-compose.yml  yml 是 yaml 简写方式</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx:latest</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">my-nginx-container</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;80:80&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/Users/huangben/Documents/bighb-code/Vue/hello_vue3/dist:/usr/share/nginx/html</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./nginx/default.conf:/etc/nginx/conf.d/default.conf</span></span><br></pre></td></tr></table></figure>
+<p>左侧是<strong>宿主</strong>（自己的 MAC） <strong>：</strong> <strong>容器</strong></p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>挂载（volumes）将宿主机的目录挂载到容器中时，实际上是创建了一个映射关系，而不是物理复制</p>
+</blockquote>
+<p><code>/Users/huangben/Documents/bighb-code/Vue/hello_vue3/dist</code>  这里是我本地随便一个文件的前端项目</p>
+<ol start="2">
+<li><p>需要在打开 Docker Desktop 设置</p>
+<p><strong>配置共享路径</strong></p>
+<ol>
+<li>在左侧菜单中，选择 <strong>Resources</strong>（资源）。</li>
+<li>然后选择 <strong>File Sharing</strong>（文件共享）。</li>
+<li>在右侧的输入框中添加你的路径 <code>/Users/huangben/Documents/bighb-code/Vue/hello_vue3/dist</code>，点击右侧 <code>+</code></li>
+<li>点击 <strong>Apply &amp; Restart</strong>（应用并重启）按钮，以保存更改并重启 Docker。</li>
+</ol>
+</li>
+<li><p>启动运行docker-compose</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>运行80 端口，显示成功    ！</p>
+<h2 id="重启docker-compose"><a href="#重启docker-compose" class="headerlink" title="重启docker compose"></a>重启docker compose</h2><p>修改了配置文件需要重启(静态文件不用重启)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose <span class="built_in">exec</span> web nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<h2 id="停止docker-compose"><a href="#停止docker-compose" class="headerlink" title="停止docker compose"></a>停止docker compose</h2><h3 id="停止所有由-docker-compose-启动的服务。"><a href="#停止所有由-docker-compose-启动的服务。" class="headerlink" title="停止所有由 docker compose 启动的服务。"></a>停止所有由 <code>docker compose</code> 启动的服务。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose stop</span><br></pre></td></tr></table></figure>
+
+<h3 id="停止特定服务"><a href="#停止特定服务" class="headerlink" title="停止特定服务"></a>停止特定服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose stop web</span><br></pre></td></tr></table></figure>
+
+<p>这里的 <code>web</code> 是在 <code>docker-compose.yml</code> 文件中定义的服务名称。根据你的配置文件中的服务名称替换 <code>web</code>。</p>
+<h3 id="完全移除容器"><a href="#完全移除容器" class="headerlink" title="完全移除容器"></a>完全移除容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose down</span><br></pre></td></tr></table></figure>
+
+<p>这将停止并删除所有服务的容器、网络和其他相关资源</p>
+<h3 id="检测是否停止"><a href="#检测是否停止" class="headerlink" title="检测是否停止"></a>检测是否停止</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep nginx</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/categories/">分类</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E6%8F%90"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AE%E8%AE%A4docker-%E7%8E%AF%E5%A2%83"><span class="toc-number">2.</span> <span class="toc-text">确认docker 环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-docker"><span class="toc-number">3.</span> <span class="toc-text">启动 docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%95%9C%E5%83%8F"><span class="toc-number">4.</span> <span class="toc-text">镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx-%E7%AB%AF%E5%8F%A3%E7%A1%AE%E8%AE%A4"><span class="toc-number">5.</span> <span class="toc-text">nginx 端口确认</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Nginx-%E9%95%9C%E5%83%8F%E5%88%9B%E5%BB%BA-Docker-%E5%AE%B9%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">使用 Nginx 镜像创建 Docker 容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8%E4%B8%80%E6%8E%A2%E7%A9%B6%E7%AB%9F"><span class="toc-number">7.</span> <span class="toc-text">进入容器一探究竟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8docker-compose-%E4%B8%80%E9%94%AE%E5%90%AF%E5%8A%A8"><span class="toc-number">8.</span> <span class="toc-text">使用docker compose 一键启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90%E4%BB%8B%E7%BB%8D"><span class="toc-number">8.1.</span> <span class="toc-text">前提介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%86%E5%8F%B2%E5%8E%9F%E5%9B%A0"><span class="toc-number">8.2.</span> <span class="toc-text">历史原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E7%8E%AF%E5%A2%83"><span class="toc-number">8.3.</span> <span class="toc-text">准备环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E6%93%8D%E4%BD%9C"><span class="toc-number">8.4.</span> <span class="toc-text">实际操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%90%AFdocker-compose"><span class="toc-number">9.</span> <span class="toc-text">重启docker compose</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2docker-compose"><span class="toc-number">10.</span> <span class="toc-text">停止docker compose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E6%89%80%E6%9C%89%E7%94%B1-docker-compose-%E5%90%AF%E5%8A%A8%E7%9A%84%E6%9C%8D%E5%8A%A1%E3%80%82"><span class="toc-number">10.1.</span> <span class="toc-text">停止所有由 docker compose 启动的服务。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E7%89%B9%E5%AE%9A%E6%9C%8D%E5%8A%A1"><span class="toc-number">10.2.</span> <span class="toc-text">停止特定服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E5%85%A8%E7%A7%BB%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="toc-number">10.3.</span> <span class="toc-text">完全移除容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E6%98%AF%E5%90%A6%E5%81%9C%E6%AD%A2"><span class="toc-number">10.4.</span> <span class="toc-text">检测是否停止</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bighb.github.io/2024/08/22/2024-08-22/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bighb.github.io/2024/08/22/2024-08-22/&text=nginx 在 dcoker 中的使用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bighb.github.io/2024/08/22/2024-08-22/&title=nginx 在 dcoker 中的使用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bighb.github.io/2024/08/22/2024-08-22/&is_video=false&description=nginx 在 dcoker 中的使用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=nginx 在 dcoker 中的使用&body=Check out this article: https://bighb.github.io/2024/08/22/2024-08-22/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bighb.github.io/2024/08/22/2024-08-22/&title=nginx 在 dcoker 中的使用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bighb.github.io/2024/08/22/2024-08-22/&title=nginx 在 dcoker 中的使用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bighb.github.io/2024/08/22/2024-08-22/&title=nginx 在 dcoker 中的使用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bighb.github.io/2024/08/22/2024-08-22/&title=nginx 在 dcoker 中的使用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bighb.github.io/2024/08/22/2024-08-22/&name=nginx 在 dcoker 中的使用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bighb.github.io/2024/08/22/2024-08-22/&t=nginx 在 dcoker 中的使用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2025
+    bighb
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

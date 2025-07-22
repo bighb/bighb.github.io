@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="1. 基础概念对比Webpack 环境变量 访问方式：process.env.XXX 定义文件：.env、.env.production、.env.development 等 变量注入：通过 DefinePlugin 在构建时注入 默认变量：NODE_ENV (development&#x2F;production&#x2F;test)  Vite 环境变量 访问方式：import.meta.en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue 3 项目环境配置全解析：Webpack vs Vite">
+<meta property="og:url" content="https://bighb.github.io/2025/03/25/2025-03-25/index.html">
+<meta property="og:site_name" content="可可的大树">
+<meta property="og:description" content="1. 基础概念对比Webpack 环境变量 访问方式：process.env.XXX 定义文件：.env、.env.production、.env.development 等 变量注入：通过 DefinePlugin 在构建时注入 默认变量：NODE_ENV (development&#x2F;production&#x2F;test)  Vite 环境变量 访问方式：import.meta.en">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-03-25T10:17:50.000Z">
+<meta property="article:modified_time" content="2025-07-22T03:48:26.559Z">
+<meta property="article:author" content="bighb">
+<meta property="article:tag" content="vite">
+<meta property="article:tag" content="webpack">
+<meta property="article:tag" content="环境变量">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Vue 3 项目环境配置全解析：Webpack vs Vite</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="可可的大树" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/03/25/2025-03-25-1/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/08/2025-01-08/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bighb.github.io/2025/03/25/2025-03-25/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bighb.github.io/2025/03/25/2025-03-25/&text=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bighb.github.io/2025/03/25/2025-03-25/&title=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bighb.github.io/2025/03/25/2025-03-25/&is_video=false&description=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Vue 3 项目环境配置全解析：Webpack vs Vite&body=Check out this article: https://bighb.github.io/2025/03/25/2025-03-25/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bighb.github.io/2025/03/25/2025-03-25/&title=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bighb.github.io/2025/03/25/2025-03-25/&title=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bighb.github.io/2025/03/25/2025-03-25/&title=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bighb.github.io/2025/03/25/2025-03-25/&title=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bighb.github.io/2025/03/25/2025-03-25/&name=Vue 3 项目环境配置全解析：Webpack vs Vite&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bighb.github.io/2025/03/25/2025-03-25/&t=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E5%AF%B9%E6%AF%94"><span class="toc-number">1.</span> <span class="toc-text">1. 基础概念对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Webpack-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.1.</span> <span class="toc-text">Webpack 环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vite-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">Vite 环境变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%8E%AF%E5%A2%83%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">2. 环境文件配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99%EF%BC%88%E4%B8%A4%E8%80%85%E9%80%9A%E7%94%A8%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">文件命名规则（两者通用）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%85%88%E7%BA%A7%EF%BC%88%E4%BB%8E%E9%AB%98%E5%88%B0%E4%BD%8E%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">加载优先级（从高到低）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Webpack-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%EF%BC%88Vue-CLI%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">3. Webpack 环境配置（Vue CLI）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="toc-number">3.2.</span> <span class="toc-text">变量命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="toc-number">3.3.</span> <span class="toc-text">在代码中使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%91%BD%E4%BB%A4"><span class="toc-number">3.4.</span> <span class="toc-text">构建命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Vite-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">4. Vite 环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE-1"><span class="toc-number">4.1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99-1"><span class="toc-number">4.2.</span> <span class="toc-text">变量命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E4%BD%BF%E7%94%A8-1"><span class="toc-number">4.3.</span> <span class="toc-text">在代码中使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%91%BD%E4%BB%A4-1"><span class="toc-number">4.4.</span> <span class="toc-text">构建命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.</span> <span class="toc-text">5. 完整项目配置示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue-3-Vite-%E9%A1%B9%E7%9B%AE"><span class="toc-number">5.1.</span> <span class="toc-text">Vue 3 + Vite 项目</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">5.1.1.</span> <span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-number">5.1.2.</span> <span class="toc-text">环境文件内容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vite-config-ts"><span class="toc-number">5.1.3.</span> <span class="toc-text">vite.config.ts</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E9%85%8D%E7%BD%AE-src-utils-request-ts"><span class="toc-number">5.1.4.</span> <span class="toc-text">请求配置 (src&#x2F;utils&#x2F;request.ts)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%BB%8E-Webpack-%E8%BF%81%E7%A7%BB%E5%88%B0-Vite-%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">6.</span> <span class="toc-text">6. 从 Webpack 迁移到 Vite 的注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">7.</span> <span class="toc-text">7. 最佳实践</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Vue 3 项目环境配置全解析：Webpack vs Vite
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">bighb</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-25T10:17:50.000Z" class="dt-published" itemprop="datePublished">2025-03-25</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/vite/" rel="tag">vite</a>, <a class="p-category" href="/tags/webpack/" rel="tag">webpack</a>, <a class="p-category" href="/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/" rel="tag">环境变量</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="1-基础概念对比"><a href="#1-基础概念对比" class="headerlink" title="1. 基础概念对比"></a>1. 基础概念对比</h2><h3 id="Webpack-环境变量"><a href="#Webpack-环境变量" class="headerlink" title="Webpack 环境变量"></a>Webpack 环境变量</h3><ul>
+<li><strong>访问方式</strong>：<code>process.env.XXX</code></li>
+<li><strong>定义文件</strong>：<code>.env</code>、<code>.env.production</code>、<code>.env.development</code> 等</li>
+<li><strong>变量注入</strong>：通过 <code>DefinePlugin</code> 在构建时注入</li>
+<li><strong>默认变量</strong>：<code>NODE_ENV</code> (development&#x2F;production&#x2F;test)</li>
+</ul>
+<h3 id="Vite-环境变量"><a href="#Vite-环境变量" class="headerlink" title="Vite 环境变量"></a>Vite 环境变量</h3><ul>
+<li><strong>访问方式</strong>：<code>import.meta.env.XXX</code></li>
+<li><strong>定义文件</strong>：<code>.env</code>、<code>.env.production</code>、<code>.env.development</code> 等</li>
+<li><strong>变量注入</strong>：开发时直接可用，生产时构建注入</li>
+<li><strong>默认变量</strong>：<ul>
+<li><code>MODE</code>：当前模式</li>
+<li><code>PROD</code>：是否生产环境（布尔值）</li>
+<li><code>DEV</code>：是否开发环境（布尔值）</li>
+<li><code>SSR</code>：是否服务端渲染</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-环境文件配置"><a href="#2-环境文件配置" class="headerlink" title="2. 环境文件配置"></a>2. 环境文件配置</h2><h3 id="文件命名规则（两者通用）"><a href="#文件命名规则（两者通用）" class="headerlink" title="文件命名规则（两者通用）"></a>文件命名规则（两者通用）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.env                # 所有环境都会加载</span><br><span class="line">.env.local          # 所有环境都会加载，但会被 git 忽略</span><br><span class="line">.env.[mode]         # 特定模式加载（如 .env.production）</span><br><span class="line">.env.[mode].local   # 特定模式加载，但会被 git 忽略</span><br></pre></td></tr></table></figure>
+
+<h3 id="加载优先级（从高到低）"><a href="#加载优先级（从高到低）" class="headerlink" title="加载优先级（从高到低）"></a>加载优先级（从高到低）</h3><ol>
+<li><code>.env.[mode].local</code></li>
+<li><code>.env.[mode]</code></li>
+<li><code>.env.local</code></li>
+<li>.env</li>
+</ol>
+<h2 id="3-Webpack-环境配置（Vue-CLI）"><a href="#3-Webpack-环境配置（Vue-CLI）" class="headerlink" title="3. Webpack 环境配置（Vue CLI）"></a>3. Webpack 环境配置（Vue CLI）</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env.development</span></span><br><span class="line">NODE_ENV=development</span><br><span class="line">VUE_APP_API_URL=http://dev-api.example.com</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env.test</span></span><br><span class="line">NODE_ENV=production</span><br><span class="line">VUE_APP_API_URL=http://test-api.example.com</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env.production</span></span><br><span class="line">NODE_ENV=production</span><br><span class="line">VUE_APP_API_URL=http://api.example.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="变量命名规则"><a href="#变量命名规则" class="headerlink" title="变量命名规则"></a>变量命名规则</h3><ul>
+<li><strong>必须以 <code>VUE_APP_</code> 开头</strong>才会被 Vue CLI 暴露给客户端代码</li>
+<li><code>NODE_ENV</code> 和 <code>BASE_URL</code> 是内置变量</li>
+</ul>
+<h3 id="在代码中使用"><a href="#在代码中使用" class="headerlink" title="在代码中使用"></a>在代码中使用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Webpack 项目</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(process.<span class="property">env</span>.<span class="property">NODE_ENV</span>);          <span class="comment">// &#x27;development&#x27;/&#x27;production&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(process.<span class="property">env</span>.<span class="property">VUE_APP_API_URL</span>);   <span class="comment">// API URL</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="构建命令"><a href="#构建命令" class="headerlink" title="构建命令"></a>构建命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开发环境</span></span><br><span class="line">npm run serve</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试环境</span></span><br><span class="line">npm run build --mode <span class="built_in">test</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生产环境</span></span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-Vite-环境配置"><a href="#4-Vite-环境配置" class="headerlink" title="4. Vite 环境配置"></a>4. Vite 环境配置</h2><h3 id="基本配置-1"><a href="#基本配置-1" class="headerlink" title="基本配置"></a>基本配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env.development</span></span><br><span class="line">VITE_APP_API_URL=http://dev-api.example.com</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env.test</span></span><br><span class="line"><span class="comment"># NODE_ENV 可以省略，Vite 自动处理</span></span><br><span class="line">VITE_APP_API_URL=http://test-api.example.com</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env.production</span></span><br><span class="line"><span class="comment"># NODE_ENV 可以省略，Vite 自动处理</span></span><br><span class="line">VITE_APP_API_URL=http://api.example.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="变量命名规则-1"><a href="#变量命名规则-1" class="headerlink" title="变量命名规则"></a>变量命名规则</h3><ul>
+<li><strong>必须以 <code>VITE_</code> 开头</strong>才会暴露给客户端代码</li>
+<li>Vite 提供内置变量: <code>MODE</code>, <code>DEV</code>, <code>PROD</code></li>
+</ul>
+<h3 id="在代码中使用-1"><a href="#在代码中使用-1" class="headerlink" title="在代码中使用"></a>在代码中使用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Vite 项目</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">MODE</span>);           <span class="comment">// &#x27;development&#x27;/&#x27;production&#x27;/&#x27;test&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">PROD</span>);           <span class="comment">// true/false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">DEV</span>);            <span class="comment">// true/false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">VITE_APP_API_URL</span>); <span class="comment">// API URL</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ❌ 不要这样使用，这是错误的</span></span><br><span class="line"><span class="comment">// console.log(import.meta.env.NODE_ENV);    // 不存在！</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如需兼容旧代码，Vite 保留了对 process.env.NODE_ENV 的支持</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(process.<span class="property">env</span>.<span class="property">NODE_ENV</span>);           <span class="comment">// &#x27;development&#x27;/&#x27;production&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="构建命令-1"><a href="#构建命令-1" class="headerlink" title="构建命令"></a>构建命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开发环境</span></span><br><span class="line">npm run dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试环境</span></span><br><span class="line">npm run build --mode <span class="built_in">test</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生产环境</span></span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-完整项目配置示例"><a href="#5-完整项目配置示例" class="headerlink" title="5. 完整项目配置示例"></a>5. 完整项目配置示例</h2><h3 id="Vue-3-Vite-项目"><a href="#Vue-3-Vite-项目" class="headerlink" title="Vue 3 + Vite 项目"></a>Vue 3 + Vite 项目</h3><h4 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">project/</span><br><span class="line">├── .env                  # 基础环境变量</span><br><span class="line">├── .env.development      # 开发环境变量</span><br><span class="line">├── .env.test             # 测试环境变量</span><br><span class="line">├── .env.production       # 生产环境变量</span><br><span class="line">├── vite.config.ts        # Vite 配置</span><br><span class="line">└── src/</span><br><span class="line">    └── utils/</span><br><span class="line">        └── request.ts    # API 请求配置</span><br></pre></td></tr></table></figure>
+
+<h4 id="环境文件内容"><a href="#环境文件内容" class="headerlink" title="环境文件内容"></a>环境文件内容</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env (基础配置)</span></span><br><span class="line">VITE_APP_TITLE=我的应用</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env.development</span></span><br><span class="line">VITE_APP_ENV=development</span><br><span class="line">VITE_APP_API_URL=http://localhost:3000</span><br><span class="line">VITE_APP_UPLOAD_URL=http://localhost:3000/upload</span><br><span class="line">VITE_APP_BASE_URL=/</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env.test</span></span><br><span class="line">VITE_APP_ENV=<span class="built_in">test</span></span><br><span class="line">VITE_APP_API_URL=https://test-api.example.com</span><br><span class="line">VITE_APP_UPLOAD_URL=https://test-api.example.com/upload</span><br><span class="line">VITE_APP_BASE_URL=/app/</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env.production</span></span><br><span class="line">VITE_APP_ENV=production</span><br><span class="line">VITE_APP_API_URL=https://api.example.com</span><br><span class="line">VITE_APP_UPLOAD_URL=https://api.example.com/upload</span><br><span class="line">VITE_APP_BASE_URL=/app/</span><br></pre></td></tr></table></figure>
+
+<h4 id="vite-config-ts"><a href="#vite-config-ts" class="headerlink" title="vite.config.ts"></a>vite.config.ts</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; defineConfig, loadEnv &#125; <span class="keyword">from</span> <span class="string">&#x27;vite&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> vue <span class="keyword">from</span> <span class="string">&#x27;@vitejs/plugin-vue&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&#x27;path&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineConfig</span>(<span class="function">(<span class="params">&#123; command, mode &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 加载环境变量</span></span><br><span class="line">  <span class="keyword">const</span> env = <span class="title function_">loadEnv</span>(mode, process.<span class="title function_">cwd</span>());</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">plugins</span>: [<span class="title function_">vue</span>()],</span><br><span class="line">    <span class="attr">resolve</span>: &#123;</span><br><span class="line">      <span class="attr">alias</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;@&#x27;</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&#x27;src&#x27;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">base</span>: env.<span class="property">VITE_APP_BASE_URL</span>,</span><br><span class="line">    <span class="attr">server</span>: &#123;</span><br><span class="line">      <span class="attr">port</span>: <span class="number">3000</span>,</span><br><span class="line">      <span class="attr">open</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">proxy</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;/api&#x27;</span>: &#123;</span><br><span class="line">          <span class="attr">target</span>: env.<span class="property">VITE_APP_API_URL</span>,</span><br><span class="line">          <span class="attr">changeOrigin</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="attr">rewrite</span>: <span class="function">(<span class="params">path</span>) =&gt;</span> path.<span class="title function_">replace</span>(<span class="regexp">/^\/api/</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">build</span>: &#123;</span><br><span class="line">      <span class="attr">outDir</span>: <span class="string">&#x27;dist&#x27;</span>,</span><br><span class="line">      <span class="attr">assetsDir</span>: <span class="string">&#x27;assets&#x27;</span>,</span><br><span class="line">      <span class="attr">sourcemap</span>: mode !== <span class="string">&#x27;production&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="请求配置-src-utils-request-ts"><a href="#请求配置-src-utils-request-ts" class="headerlink" title="请求配置 (src&#x2F;utils&#x2F;request.ts)"></a>请求配置 (src&#x2F;utils&#x2F;request.ts)</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ✅ 正确的方式</span></span><br><span class="line"><span class="keyword">const</span> baseURL = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">VITE_APP_API_URL</span>;</span><br><span class="line"><span class="comment">// 可以直接使用布尔值判断环境</span></span><br><span class="line"><span class="keyword">const</span> isProd = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">PROD</span>;</span><br><span class="line"><span class="keyword">const</span> isDev = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">DEV</span>;</span><br><span class="line"><span class="keyword">const</span> currentMode = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">MODE</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> service = axios.<span class="title function_">create</span>(&#123;</span><br><span class="line">  baseURL,</span><br><span class="line">  <span class="attr">timeout</span>: <span class="number">5000</span>,</span><br><span class="line">  <span class="attr">headers</span>: &#123;</span><br><span class="line">    <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据环境配置请求拦截器</span></span><br><span class="line">service.<span class="property">interceptors</span>.<span class="property">request</span>.<span class="title function_">use</span>(<span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 开发环境打印请求信息</span></span><br><span class="line">  <span class="keyword">if</span> (isDev) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;请求地址:&#x27;</span>, <span class="string">`<span class="subst">$&#123;config.baseURL&#125;</span><span class="subst">$&#123;config.url&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 不同环境可能有不同的认证方式</span></span><br><span class="line">  <span class="keyword">if</span> (currentMode === <span class="string">&#x27;test&#x27;</span>) &#123;</span><br><span class="line">    <span class="comment">// 测试环境特殊处理</span></span><br><span class="line">    config.<span class="property">headers</span>.<span class="property">Authorization</span> = <span class="string">`Bearer <span class="subst">$&#123;<span class="keyword">import</span>.meta.env.VITE_APP_TEST_TOKEN&#125;</span>`</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 生产/开发环境</span></span><br><span class="line">    <span class="keyword">const</span> token = <span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&#x27;token&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (token) &#123;</span><br><span class="line">      config.<span class="property">headers</span>.<span class="property">Authorization</span> = <span class="string">`Bearer <span class="subst">$&#123;token&#125;</span>`</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> config;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> service;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-从-Webpack-迁移到-Vite-的注意事项"><a href="#6-从-Webpack-迁移到-Vite-的注意事项" class="headerlink" title="6. 从 Webpack 迁移到 Vite 的注意事项"></a>6. 从 Webpack 迁移到 Vite 的注意事项</h2><ol>
+<li><p><strong>环境变量前缀变更</strong></p>
+<ul>
+<li>Webpack: <code>VUE_APP_*</code> → Vite: <code>VITE_*</code></li>
+</ul>
+</li>
+<li><p><strong>访问方式变更</strong></p>
+<ul>
+<li>Webpack: <code>process.env.*</code> → Vite: <code>import.meta.env.*</code></li>
+</ul>
+</li>
+<li><p><strong>环境判断方式</strong></p>
+<ul>
+<li>Webpack: <code>process.env.NODE_ENV === &#39;production&#39;</code></li>
+<li>Vite: <code>import.meta.env.PROD</code> (布尔值)</li>
+</ul>
+</li>
+<li><p><strong>环境变量类型</strong></p>
+<ul>
+<li>Webpack 中所有环境变量都是字符串</li>
+<li>Vite 中 <code>PROD</code>、<code>DEV</code> 是布尔值</li>
+</ul>
+</li>
+<li><p><strong>更改代码示例</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改前 (Webpack)</span></span><br><span class="line"><span class="keyword">const</span> isProd = process.<span class="property">env</span>.<span class="property">NODE_ENV</span> === <span class="string">&#x27;production&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> apiUrl = process.<span class="property">env</span>.<span class="property">VUE_APP_API_URL</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改后 (Vite)</span></span><br><span class="line"><span class="keyword">const</span> isProd = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">PROD</span>;</span><br><span class="line"><span class="keyword">const</span> apiUrl = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">VITE_APP_API_URL</span>;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="7-最佳实践"><a href="#7-最佳实践" class="headerlink" title="7. 最佳实践"></a>7. 最佳实践</h2><ol>
+<li><p><strong>创建环境工具函数</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils/env.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getEnv = (): <span class="function"><span class="params">string</span> =&gt;</span> <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">MODE</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> isProd = (): <span class="function"><span class="params">boolean</span> =&gt;</span> <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">PROD</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> isDev = (): <span class="function"><span class="params">boolean</span> =&gt;</span> <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">DEV</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> isTest = (): <span class="function"><span class="params">boolean</span> =&gt;</span> <span class="title function_">getEnv</span>() === <span class="string">&#x27;test&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取环境变量，提供默认值和类型转换</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getEnvValue = &lt;T <span class="keyword">extends</span> <span class="built_in">string</span> | <span class="built_in">boolean</span> | <span class="built_in">number</span>&gt;(</span><br><span class="line">  <span class="attr">key</span>: <span class="built_in">string</span>, </span><br><span class="line">  <span class="attr">defaultValue</span>: T</span><br><span class="line">): <span class="function"><span class="params">T</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> value = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>[key] <span class="keyword">as</span> <span class="built_in">unknown</span>;</span><br><span class="line">  <span class="keyword">if</span> (value === <span class="literal">undefined</span>) <span class="keyword">return</span> defaultValue;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 根据默认值类型进行转换</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> defaultValue === <span class="string">&#x27;boolean&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (value === <span class="string">&#x27;true&#x27;</span>) <span class="keyword">as</span> <span class="built_in">unknown</span> <span class="keyword">as</span> T;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> defaultValue === <span class="string">&#x27;number&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Number</span>(value) <span class="keyword">as</span> <span class="built_in">unknown</span> <span class="keyword">as</span> T;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> value <span class="keyword">as</span> T;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用示例</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">getApiUrl</span> = (<span class="params"></span>) =&gt; <span class="title function_">getEnvValue</span>(<span class="string">&#x27;VITE_APP_API_URL&#x27;</span>, <span class="string">&#x27;&#x27;</span>);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">getAppTitle</span> = (<span class="params"></span>) =&gt; <span class="title function_">getEnvValue</span>(<span class="string">&#x27;VITE_APP_TITLE&#x27;</span>, <span class="string">&#x27;默认应用名称&#x27;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在组件中使用</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">import &#123; getAppTitle, isProd, isTest &#125; from &#x27;@/utils/env&#x27;;</span><br><span class="line"></span><br><span class="line">// 根据环境显示不同内容</span><br><span class="line">const showDebugInfo = !isProd();</span><br><span class="line">const showTestBanner = isTest();</span><br><span class="line">const appTitle = getAppTitle();</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h1&gt;&#123;&#123; appTitle &#125;&#125;&lt;/h1&gt;</span><br><span class="line">    &lt;div v-if=&quot;showTestBanner&quot; class=&quot;test-env-banner&quot;&gt;测试环境&lt;/div&gt;</span><br><span class="line">    &lt;div v-if=&quot;showDebugInfo&quot; class=&quot;debug-info&quot;&gt;Debug模式已启用&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>通过这种环境配置和使用方式，可以在 Vue 3 项目中灵活处理不同环境的配置需求，同时保持代码的可维护性和清晰度。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/categories/">分类</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E5%AF%B9%E6%AF%94"><span class="toc-number">1.</span> <span class="toc-text">1. 基础概念对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Webpack-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.1.</span> <span class="toc-text">Webpack 环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vite-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">Vite 环境变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%8E%AF%E5%A2%83%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">2. 环境文件配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99%EF%BC%88%E4%B8%A4%E8%80%85%E9%80%9A%E7%94%A8%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">文件命名规则（两者通用）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%85%88%E7%BA%A7%EF%BC%88%E4%BB%8E%E9%AB%98%E5%88%B0%E4%BD%8E%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">加载优先级（从高到低）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Webpack-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%EF%BC%88Vue-CLI%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">3. Webpack 环境配置（Vue CLI）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="toc-number">3.2.</span> <span class="toc-text">变量命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="toc-number">3.3.</span> <span class="toc-text">在代码中使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%91%BD%E4%BB%A4"><span class="toc-number">3.4.</span> <span class="toc-text">构建命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Vite-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">4. Vite 环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE-1"><span class="toc-number">4.1.</span> <span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99-1"><span class="toc-number">4.2.</span> <span class="toc-text">变量命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E4%BD%BF%E7%94%A8-1"><span class="toc-number">4.3.</span> <span class="toc-text">在代码中使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%91%BD%E4%BB%A4-1"><span class="toc-number">4.4.</span> <span class="toc-text">构建命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.</span> <span class="toc-text">5. 完整项目配置示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue-3-Vite-%E9%A1%B9%E7%9B%AE"><span class="toc-number">5.1.</span> <span class="toc-text">Vue 3 + Vite 项目</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">5.1.1.</span> <span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-number">5.1.2.</span> <span class="toc-text">环境文件内容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vite-config-ts"><span class="toc-number">5.1.3.</span> <span class="toc-text">vite.config.ts</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E9%85%8D%E7%BD%AE-src-utils-request-ts"><span class="toc-number">5.1.4.</span> <span class="toc-text">请求配置 (src&#x2F;utils&#x2F;request.ts)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%BB%8E-Webpack-%E8%BF%81%E7%A7%BB%E5%88%B0-Vite-%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">6.</span> <span class="toc-text">6. 从 Webpack 迁移到 Vite 的注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">7.</span> <span class="toc-text">7. 最佳实践</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bighb.github.io/2025/03/25/2025-03-25/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bighb.github.io/2025/03/25/2025-03-25/&text=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bighb.github.io/2025/03/25/2025-03-25/&title=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bighb.github.io/2025/03/25/2025-03-25/&is_video=false&description=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Vue 3 项目环境配置全解析：Webpack vs Vite&body=Check out this article: https://bighb.github.io/2025/03/25/2025-03-25/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bighb.github.io/2025/03/25/2025-03-25/&title=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bighb.github.io/2025/03/25/2025-03-25/&title=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bighb.github.io/2025/03/25/2025-03-25/&title=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bighb.github.io/2025/03/25/2025-03-25/&title=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bighb.github.io/2025/03/25/2025-03-25/&name=Vue 3 项目环境配置全解析：Webpack vs Vite&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bighb.github.io/2025/03/25/2025-03-25/&t=Vue 3 项目环境配置全解析：Webpack vs Vite"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2025
+    bighb
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

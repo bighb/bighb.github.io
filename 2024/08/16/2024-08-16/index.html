@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="前提当前操作是 MAC M2环境 使用的是 Homebrew 安装 Ngnix  安装 Nginx1brew install nginx  确定 Nginx 位置 你可以运行以下命令，它不仅会测试 Nginx 配置文件的语法，还会显示 nginx.conf 文件的路径： 1nginx -t   当每次修改了Nginx配置 文件nginx.conf，养成习惯，先执行一下nginx -t命令，确保配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ngnix使用笔记">
+<meta property="og:url" content="https://bighb.github.io/2024/08/16/2024-08-16/index.html">
+<meta property="og:site_name" content="可可的大树">
+<meta property="og:description" content="前提当前操作是 MAC M2环境 使用的是 Homebrew 安装 Ngnix  安装 Nginx1brew install nginx  确定 Nginx 位置 你可以运行以下命令，它不仅会测试 Nginx 配置文件的语法，还会显示 nginx.conf 文件的路径： 1nginx -t   当每次修改了Nginx配置 文件nginx.conf，养成习惯，先执行一下nginx -t命令，确保配置">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://bighb.github.io/images/Snipaste_2024-08-17_22-10-57.png">
+<meta property="og:image" content="https://bighb.github.io/images/Snipaste_2024-08-17_22-17-11.png">
+<meta property="og:image" content="https://bighb.github.io/images/Snipaste_2024-08-16_18-13-32.png">
+<meta property="og:image" content="https://bighb.github.io/images/Snipaste_2024-08-19_16-48-42.png">
+<meta property="og:image" content="https://bighb.github.io/images/Snipaste_2024-08-19_16-49-10.png">
+<meta property="article:published_time" content="2024-08-16T17:56:55.000Z">
+<meta property="article:modified_time" content="2025-07-22T03:48:26.559Z">
+<meta property="article:author" content="bighb">
+<meta property="article:tag" content="nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bighb.github.io/images/Snipaste_2024-08-17_22-10-57.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Ngnix使用笔记</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="可可的大树" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/08/19/2024-08-19/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/08/15/2024-08-15/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bighb.github.io/2024/08/16/2024-08-16/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bighb.github.io/2024/08/16/2024-08-16/&text=Ngnix使用笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bighb.github.io/2024/08/16/2024-08-16/&title=Ngnix使用笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bighb.github.io/2024/08/16/2024-08-16/&is_video=false&description=Ngnix使用笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ngnix使用笔记&body=Check out this article: https://bighb.github.io/2024/08/16/2024-08-16/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bighb.github.io/2024/08/16/2024-08-16/&title=Ngnix使用笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bighb.github.io/2024/08/16/2024-08-16/&title=Ngnix使用笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bighb.github.io/2024/08/16/2024-08-16/&title=Ngnix使用笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bighb.github.io/2024/08/16/2024-08-16/&title=Ngnix使用笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bighb.github.io/2024/08/16/2024-08-16/&name=Ngnix使用笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bighb.github.io/2024/08/16/2024-08-16/&t=Ngnix使用笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Nginx"><span class="toc-number">2.</span> <span class="toc-text">安装 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A-Nginx-%E4%BD%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">确定 Nginx 位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%89%B9%E6%84%8F%E5%BC%BA%E8%B0%83%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">为什么特意强调目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E7%82%B9%E5%85%B3%E6%B3%A8"><span class="toc-number">5.</span> <span class="toc-text">重点关注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-Nginx"><span class="toc-number">6.</span> <span class="toc-text">启动 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E5%90%AF%E5%8A%A8%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">7.</span> <span class="toc-text">访问启动的服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2-Nginx"><span class="toc-number">8.</span> <span class="toc-text">停止 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF-Nginx"><span class="toc-number">9.</span> <span class="toc-text">重启 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E6%AD%A3%E5%B8%B8%E5%90%AF%E5%8A%A8"><span class="toc-number">10.</span> <span class="toc-text">判断是否正常启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E4%B8%89%E4%B8%AA-Nginx-%E8%BF%9B%E7%A8%8B%EF%BC%9F"><span class="toc-number">11.</span> <span class="toc-text">为什么会有三个 Nginx 进程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Nginx"><span class="toc-number">12.</span> <span class="toc-text">配置 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx-%E5%B8%B8%E7%94%A8-API"><span class="toc-number">13.</span> <span class="toc-text">Nginx 常用 API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7"><span class="toc-number">14.</span> <span class="toc-text">调试技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%BC%9A%E5%88%86%E6%9E%90%E9%97%AE%E9%A2%98"><span class="toc-number">15.</span> <span class="toc-text">学会分析问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E5%89%8D%E7%AB%AF-SPA-%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">16.</span> <span class="toc-text">与前端 SPA 项目部署的关系</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Ngnix使用笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">bighb</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-08-16T17:56:55.000Z" class="dt-published" itemprop="datePublished">2024-08-16</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/nginx/" rel="tag">nginx</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h3><p>当前操作是 MAC M2环境</p>
+<p>使用的是 Homebrew 安装 Ngnix </p>
+<h3 id="安装-Nginx"><a href="#安装-Nginx" class="headerlink" title="安装 Nginx"></a>安装 Nginx</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="确定-Nginx-位置"><a href="#确定-Nginx-位置" class="headerlink" title="确定 Nginx 位置"></a>确定 Nginx 位置</h3><p> 你可以运行以下命令，它不仅<strong>会测试 Nginx 配置文件的语法</strong>，还会显示 <code>nginx.conf</code> 文件的路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -t</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../images/Snipaste_2024-08-17_22-10-57.png" alt="Snipaste_2024-08-17_22-10-57"></p>
+<p>当<strong>每次修改了Nginx配置 文件</strong><code>nginx.conf</code>，养成习惯，先执行一下<code>nginx -t</code>命令，确保配置文件正常</p>
+<p>下面是我 Mac M2 通过 <strong>Homebrew</strong> 安装的 nginx 目录结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/opt/homebrew/                # Homebrew 安装根目录</span><br><span class="line">├── Cellar/</span><br><span class="line">│   └── nginx/</span><br><span class="line">│       └── 1.27.1/           # Nginx 版本目录</span><br><span class="line">│           ├── bin/               # 包含 nginx 可执行文件</span><br><span class="line">│           ├── homebrew.nginx.service   # 是一个系统服务单元文件，用于管理通过 Homebrew 安装的 Nginx 服务</span><br><span class="line">│           ├── html -&gt; ./../../var/www  # 软链接，指向文档根目录</span><br><span class="line">│           ├── LICENSE</span><br><span class="line">│           ├── ...</span><br><span class="line">└── etc/</span><br><span class="line">│    └── nginx/                  # Nginx 默认的文档根目录</span><br><span class="line">│        ├── nginx.conf          # Nginx 主配置文件</span><br><span class="line">│       └── ...                  # 其他静态文件</span><br><span class="line">└── var      # 软链接指向的位置</span><br><span class="line">     └── www/            # Nginx 服务提供网页内容的地方</span><br><span class="line">          ├──index.html # Nginx 默认的主页文件</span><br><span class="line">          ├── 404.html   # Nginx 错误时看到的消息 </span><br><span class="line">          </span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="为什么特意强调目录结构"><a href="#为什么特意强调目录结构" class="headerlink" title="为什么特意强调目录结构"></a>为什么特意强调目录结构</h3><p>因为最开始<strong>习惯性的代入了 Linux 中 nginx 安装结构</strong>，毕竟新手会去找相关配置文件，包括网页存放的内容信息，容易搞蒙，单独把这个强调一下</p>
+<h3 id="重点关注"><a href="#重点关注" class="headerlink" title="重点关注"></a>重点关注</h3><ul>
+<li>配置文件 <strong>nginx.conf</strong></li>
+<li>网页内容 <strong>www</strong></li>
+</ul>
+<p>在绕了一下nginx 文件位置之后，其实我们在使用 nginx 时不用特意关心他们在不同操作系统具体位置在哪里，可以直接使用命令去看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -V # 这里“v&quot;是大写，会全面的 nginx 各个配置位置信息，因为小写v 是查看当前 nginx 的版本号</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../images/Snipaste_2024-08-17_22-17-11.png" alt="Snipaste_2024-08-17_22-17-11"></p>
+<h3 id="启动-Nginx"><a href="#启动-Nginx" class="headerlink" title="启动 Nginx"></a>启动 Nginx</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services start nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="访问启动的服务器"><a href="#访问启动的服务器" class="headerlink" title="访问启动的服务器"></a>访问启动的服务器</h3><p>一般是<a target="_blank" rel="noopener" href="http://localhost:8080/%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E6%88%90%E5%8A%9F%E9%A1%B5%E9%9D%A2%E6%8F%90%E7%A4%BA%EF%BC%8C%E5%A6%82%E6%9E%9C%E4%B8%8D%E6%98%AF%EF%BC%8C%E5%8E%BB%E6%9F%A5%E7%9C%8Bnginx.conf">http://localhost:8080/，可以看到成功页面提示，如果不是，去查看nginx.conf</a> 中监听的是哪一个端口</p>
+<h3 id="停止-Nginx"><a href="#停止-Nginx" class="headerlink" title="停止 Nginx"></a>停止 Nginx</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services stop nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="重启-Nginx"><a href="#重启-Nginx" class="headerlink" title="重启 Nginx"></a>重启 Nginx</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services restart nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="判断是否正常启动"><a href="#判断是否正常启动" class="headerlink" title="判断是否正常启动"></a>判断是否正常启动</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep nginx</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pgrep nginx   </span><br></pre></td></tr></table></figure>
+
+<p><code>pgrep</code> 只返回匹配的进程 ID，不会列出 <code>grep</code> 自身。</p>
+<p>如图：</p>
+<p><img src="/../images/Snipaste_2024-08-16_18-13-32.png" alt="Snipaste_2024-08-16_18-13-32"></p>
+<p>在运行 <code>ps aux | grep nginx</code> 后看到三个 Nginx 进程是正常的，这与 Nginx 的工作原理有关。</p>
+<h3 id="为什么会有三个-Nginx-进程？"><a href="#为什么会有三个-Nginx-进程？" class="headerlink" title="为什么会有三个 Nginx 进程？"></a>为什么会有三个 Nginx 进程？</h3><ol>
+<li><strong>Master 进程</strong>: 这个进程负责控制和管理 Nginx 实例，是所有 worker 进程的父进程。</li>
+<li><strong>Worker 进程</strong>: 默认情况下，Nginx 可能配置为启动两个 worker 进程（或更多），它们用于处理实际的客户端请求。</li>
+<li><strong>第一个进程ID如图为 1577</strong>：这个输出表示你运行 <code>ps aux | grep nginx</code> 命令时，<code>grep nginx</code> 自身作为一个进程被列出在了进程列表中</li>
+</ol>
+<p>有了进程，因此可以进程停止 Nginx</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep nginx</span><br><span class="line">kill -QUIT &lt;PID&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将 <code>&lt;PID&gt;</code> 替换为 Nginx 进程的 ID。</p>
+<h3 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h3><p><strong>重点强调</strong>！！！</p>
+<p><strong>养好备份习惯，去哪个服务器改配置，先备份文件，再创建新的文件来改</strong></p>
+<p>简单来说nginx.conf 就是 nginx 主配置文件，可能还有 nginx.conf.default 文件，这些都不重要，</p>
+<p><strong>如何去理解主次配置文件呢？</strong></p>
+<p>nginx.conf 是全局配置文件，因此通常我们会在当前目录下面建立一个 conf.d 等名称的目录，用来存放 nginx 其他局部配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">└── etc/</span><br><span class="line">│    └── nginx/                  # Nginx 默认的文档根目录</span><br><span class="line">│        ├── nginx.conf          # Nginx 主配置文件</span><br><span class="line">         ├── conf.d/             # 局部 配置文件目录</span><br><span class="line">               ├── project1.conf # 项目1 的配置文件</span><br><span class="line">               ├── project2.conf # 项目2 的配置文件</span><br><span class="line">               ├── ...</span><br></pre></td></tr></table></figure>
+
+<p>为什么这样划分呢，这样做的到处就是让配置看起来更清晰，不同项目配置中就配置自己项目的 server</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">     listen 8083;</span><br><span class="line">     server_name vue3-dmeo;</span><br><span class="line">     root /opt/homebrew/var/www/nginx-history-demo/dist/;</span><br><span class="line">     location /history/ &#123;</span><br><span class="line">        try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.html;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>全局 nginx.conf配置一般是下面这种，至于负载均衡等，分流啥的这里先不作补充</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">events&#123;&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    #  这里是全局配置 会被所有的server块继承 也可以在server块中单独配置</span><br><span class="line">    #  这里配置的是文件类型 也就是说nginx会根据文件类型来设置响应头</span><br><span class="line">    #  例如 text/html 会设置Content-Type: text/html</span><br><span class="line">    #  css文件会设置Content-Type: text/css</span><br><span class="line">    include       mime.types;  </span><br><span class="line">    </span><br><span class="line">    # 表示conf.d 目录下的所有.conf结尾的文件都会被加载执行</span><br><span class="line">    # 这样做的好处是可以将配置文件分开管理</span><br><span class="line">    include       /opt/homebrew/etc/nginx/conf.d/*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Nginx-常用-API"><a href="#Nginx-常用-API" class="headerlink" title="Nginx 常用 API"></a>Nginx 常用 API</h3><ul>
+<li><p><strong>proxy_pass</strong>  用于将客户端请求代理到另一个服务器或服务</p>
+</li>
+<li><p><strong>upstream</strong>  用于定义一个服务器组，这些服务器将处理来自客户端的请求。通过 <code>upstream</code>，你可以配置负载均衡，将请求分发到多个后端服务器，从而提高系统的可扩展性和可靠性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 负载均衡</span><br><span class="line"># 在 NGINX 的 upstream 配置中，端口后面不能带路径。upstream 指令用于定义一组服务器，</span><br><span class="line"># 而每个服务器的地址只能包含主机名或 IP 地址和端口号，不能包含 URL 路径。</span><br><span class="line">  upstream nextjs &#123;</span><br><span class="line">      server localhost:3000 weight=5; # 权重</span><br><span class="line">      server localhost:3001 weight=2;</span><br><span class="line">  &#125;</span><br><span class="line"> server &#123;</span><br><span class="line">      listen 8086;</span><br><span class="line">      server_name localhost;</span><br><span class="line">      root /opt/homebrew/var/www/localhost;</span><br><span class="line">      index  index.html;</span><br><span class="line">      </span><br><span class="line">      # 代理到本地的3000端口</span><br><span class="line">      location / &#123;</span><br><span class="line">          proxy_pass http://nextjs; # 代理到负载均衡 把请求分发到3000和3001 服务器集群</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h3><p>当我们想 <strong>debug</strong> <code>$uri</code>  到底是什么，可以这样，增加一个自定义响应首部<strong>add_header</strong>，再用 <code>curl -i</code> 命令去调试查看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">       listen 8083;</span><br><span class="line">       server_name vue3-dmeo;</span><br><span class="line">       root /opt/homebrew/var/www/nginx-history-demo/dist/;</span><br><span class="line">       location /history/ &#123;</span><br><span class="line">       add_header X-debug-uri <span class="string">&quot;<span class="variable">$uri</span>&quot;</span>;</span><br><span class="line">          try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.html;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="学会分析问题"><a href="#学会分析问题" class="headerlink" title="学会分析问题"></a>学会分析问题</h3><p>很简单，服务器访问 <strong>404</strong>,<strong>500</strong> 等，直接去看nginx 下面的 <strong>error.log</strong> 文件，里面说的很清楚！！！</p>
+<ul>
+<li><strong>access.log</strong>：记录每个请求的详细信息，用于监控和分析访问流量。</li>
+<li><strong>error.log</strong>：记录服务器遇到的错误和异常信息，用于故障排查和问题解决。</li>
+</ul>
+<h3 id="与前端-SPA-项目部署的关系"><a href="#与前端-SPA-项目部署的关系" class="headerlink" title="与前端 SPA 项目部署的关系"></a>与前端 SPA 项目部署的关系</h3><ul>
+<li>部署到根目录</li>
+</ul>
+<p>​        以 vue3 项目为例，如果需要部署到服务器根目录，没什么好说的，默认打包就行了，不需要改什么配置</p>
+<ul>
+<li><p>部署到非根目录</p>
+<p>前端需要修改两处地方，一个是 vite.config.ts 中的 base 属性，一个是路由中的history 属性</p>
+<p><img src="/../images/Snipaste_2024-08-19_16-48-42.png" alt="Snipaste_2024-08-19_16-48-42"></p>
+</li>
+</ul>
+<p><img src="/../images/Snipaste_2024-08-19_16-49-10.png" alt="Snipaste_2024-08-19_16-49-10"></p>
+<p>然后非根目录 nginx的配置如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 部署到非根目录（如：http://localhost:8081/nginx-demo/）下面</span><br><span class="line">server &#123;</span><br><span class="line">     listen 8081;</span><br><span class="line">     server_name vue3-dmeo;</span><br><span class="line">     root /opt/homebrew/var/www/nginx-demo/;</span><br><span class="line">     location /nginx-demo/ &#123;</span><br><span class="line">         alias /opt/homebrew/var/www/nginx-demo/dist/;</span><br><span class="line">         try_files $uri $uri/  /nginx-demo/index.html;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实，这里想说的很仔细，但是吧，还是需要自己各人去实践，总结一下需要注意的点，实践试出来的：</p>
+<ul>
+<li><p>部署到非根目录时，history 路由模式，base 需要跟 location 一致。</p>
+</li>
+<li><p>如果location 前面名称需要跟前端配置的二级目录不一样，那前端两个配置都不需要改，配置文件改root 相关就行</p>
+</li>
+<li><p>还有就是hash 模式下，如果非根目录部署，则更好处理，原理一样</p>
+</li>
+<li><p>具体还是自己去试吧</p>
+</li>
+</ul>
+<p>未完待续。。。。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/categories/">分类</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Nginx"><span class="toc-number">2.</span> <span class="toc-text">安装 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A-Nginx-%E4%BD%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">确定 Nginx 位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%89%B9%E6%84%8F%E5%BC%BA%E8%B0%83%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">为什么特意强调目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E7%82%B9%E5%85%B3%E6%B3%A8"><span class="toc-number">5.</span> <span class="toc-text">重点关注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-Nginx"><span class="toc-number">6.</span> <span class="toc-text">启动 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E5%90%AF%E5%8A%A8%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">7.</span> <span class="toc-text">访问启动的服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2-Nginx"><span class="toc-number">8.</span> <span class="toc-text">停止 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF-Nginx"><span class="toc-number">9.</span> <span class="toc-text">重启 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E6%AD%A3%E5%B8%B8%E5%90%AF%E5%8A%A8"><span class="toc-number">10.</span> <span class="toc-text">判断是否正常启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E4%B8%89%E4%B8%AA-Nginx-%E8%BF%9B%E7%A8%8B%EF%BC%9F"><span class="toc-number">11.</span> <span class="toc-text">为什么会有三个 Nginx 进程？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Nginx"><span class="toc-number">12.</span> <span class="toc-text">配置 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx-%E5%B8%B8%E7%94%A8-API"><span class="toc-number">13.</span> <span class="toc-text">Nginx 常用 API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7"><span class="toc-number">14.</span> <span class="toc-text">调试技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%BC%9A%E5%88%86%E6%9E%90%E9%97%AE%E9%A2%98"><span class="toc-number">15.</span> <span class="toc-text">学会分析问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E5%89%8D%E7%AB%AF-SPA-%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">16.</span> <span class="toc-text">与前端 SPA 项目部署的关系</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bighb.github.io/2024/08/16/2024-08-16/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bighb.github.io/2024/08/16/2024-08-16/&text=Ngnix使用笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bighb.github.io/2024/08/16/2024-08-16/&title=Ngnix使用笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bighb.github.io/2024/08/16/2024-08-16/&is_video=false&description=Ngnix使用笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ngnix使用笔记&body=Check out this article: https://bighb.github.io/2024/08/16/2024-08-16/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bighb.github.io/2024/08/16/2024-08-16/&title=Ngnix使用笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bighb.github.io/2024/08/16/2024-08-16/&title=Ngnix使用笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bighb.github.io/2024/08/16/2024-08-16/&title=Ngnix使用笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bighb.github.io/2024/08/16/2024-08-16/&title=Ngnix使用笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bighb.github.io/2024/08/16/2024-08-16/&name=Ngnix使用笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bighb.github.io/2024/08/16/2024-08-16/&t=Ngnix使用笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2025
+    bighb
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

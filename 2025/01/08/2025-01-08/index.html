@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="1. 技术栈 后端：Flask（Python） 前端：Next.js（React） 通信方式：Server-Sent Events (SSE) 流式响应 核心工具： Flask：Response + stream_with_context Next.js：fetch + ReadableStream    这篇笔记的起源是，研究前端与服务端进行流式响应，同时研究 SSE 和 AI 聊天相关的内容，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Flask 和 Next.js 实现流式聊天应用">
+<meta property="og:url" content="https://bighb.github.io/2025/01/08/2025-01-08/index.html">
+<meta property="og:site_name" content="可可的大树">
+<meta property="og:description" content="1. 技术栈 后端：Flask（Python） 前端：Next.js（React） 通信方式：Server-Sent Events (SSE) 流式响应 核心工具： Flask：Response + stream_with_context Next.js：fetch + ReadableStream    这篇笔记的起源是，研究前端与服务端进行流式响应，同时研究 SSE 和 AI 聊天相关的内容，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://bighb.github.io/images/Snipaste_2025-01-08_18-01-56.png">
+<meta property="article:published_time" content="2025-01-08T17:29:41.000Z">
+<meta property="article:modified_time" content="2025-07-22T03:48:26.559Z">
+<meta property="article:author" content="bighb">
+<meta property="article:tag" content="Flash">
+<meta property="article:tag" content="Next.js">
+<meta property="article:tag" content="SSE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bighb.github.io/images/Snipaste_2025-01-08_18-01-56.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>使用 Flask 和 Next.js 实现流式聊天应用</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="可可的大树" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/03/25/2025-03-25/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/01/02/2025-01-02/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bighb.github.io/2025/01/08/2025-01-08/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bighb.github.io/2025/01/08/2025-01-08/&text=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bighb.github.io/2025/01/08/2025-01-08/&title=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bighb.github.io/2025/01/08/2025-01-08/&is_video=false&description=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用 Flask 和 Next.js 实现流式聊天应用&body=Check out this article: https://bighb.github.io/2025/01/08/2025-01-08/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bighb.github.io/2025/01/08/2025-01-08/&title=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bighb.github.io/2025/01/08/2025-01-08/&title=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bighb.github.io/2025/01/08/2025-01-08/&title=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bighb.github.io/2025/01/08/2025-01-08/&title=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bighb.github.io/2025/01/08/2025-01-08/&name=使用 Flask 和 Next.js 实现流式聊天应用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bighb.github.io/2025/01/08/2025-01-08/&t=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="toc-number">1.</span> <span class="toc-text">1. 技术栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">2. 跨域问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-SSE%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">3. SSE的理解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A4%BA%E4%BE%8B%E4%BB%8D%E7%84%B6%E6%98%AF%E4%B8%80%E4%B8%AA-EventStream-%E8%BF%9E%E6%8E%A5%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">为什么示例仍然是一个 EventStream 连接？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text">前后端核心代码</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        使用 Flask 和 Next.js 实现流式聊天应用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">bighb</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-08T17:29:41.000Z" class="dt-published" itemprop="datePublished">2025-01-08</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Flash/" rel="tag">Flash</a>, <a class="p-category" href="/tags/Next-js/" rel="tag">Next.js</a>, <a class="p-category" href="/tags/SSE/" rel="tag">SSE</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h4 id="1-技术栈"><a href="#1-技术栈" class="headerlink" title="1. 技术栈"></a><strong>1. 技术栈</strong></h4><ul>
+<li><strong>后端</strong>：Flask（Python）</li>
+<li><strong>前端</strong>：Next.js（React）</li>
+<li><strong>通信方式</strong>：Server-Sent Events (SSE) 流式响应</li>
+<li><strong>核心工具</strong>：<ul>
+<li>Flask：<code>Response</code> + <code>stream_with_context</code></li>
+<li>Next.js：<code>fetch</code> + <code>ReadableStream</code></li>
+</ul>
+</li>
+</ul>
+<p>这篇笔记的起源是，研究前端与服务端进行流式响应，同时研究 SSE 和 AI 聊天相关的内容，综合记录的一个实践笔记。直接说<strong>出踩的坑</strong>，和理解得知识点</p>
+<h4 id="2-跨域问题"><a href="#2-跨域问题" class="headerlink" title="2. 跨域问题"></a>2. 跨域问题</h4><ul>
+<li><p>第一步首先就是请求跨域，我在 next.js 服务发起对 py 得本地服务，跨域了，之前也解决过，使用下面这段</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用 CORS，允许来自特定来源的跨域请求</span></span><br><span class="line">CORS(app, supports_credentials=<span class="literal">True</span>, resources=&#123;<span class="string">r&quot;/*&quot;</span>: &#123;<span class="string">&quot;origins&quot;</span>: <span class="string">&quot;*&quot;</span>&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>然后 <code>http://localhost:5000/chat</code> 跨域，<strong>但是</strong> <code>http://127.0.0.1:5000/chat</code> 可以</p>
+<p>最后发现，原来是跟  <code>host=&#39;0.0.0.0&#39;</code>有关，如果加上使用两种方式都可以</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.run(host=<span class="string">&#x27;0.0.0.0&#x27;</span>, port=<span class="number">5004</span>, debug=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，它<strong>Flask</strong>会监听 <code>127.0.0.1</code>（本地主机）上的端口 <code>5004</code>。<br><strong><code>localhost</code> 和 <code>127.0.0.1</code> 的行为差异</strong>：</p>
+<ul>
+<li>浏览器将 <code>localhost</code> 和 <code>127.0.0.1</code> 视为不同的域名，即使它们指向同一台机器。</li>
+<li>即使 CORS 配置允许所有来源，浏览器仍然会对 <code>localhost</code> 施加额外的安全限制</li>
+</ul>
+<p>如果你希望 Flask 应用程序能够被其他设备访问，你需要将配置参数设置为 <code>&#39;0.0.0.0&#39;</code>，这表示监听所有可用的网络接口。</p>
+</li>
+</ul>
+<h4 id="3-SSE的理解"><a href="#3-SSE的理解" class="headerlink" title="3. SSE的理解"></a>3. SSE的理解</h4><p>起初我认为SSE是必须使用，毕竟你在 MDN 查询都是这类介绍，但是其实不能<strong>单一</strong>这样去理解</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> eventSource = <span class="keyword">new</span> <span class="title class_">EventSource</span>(<span class="string">&#x27;/chat&#x27;</span>);</span><br><span class="line">eventSource.<span class="property">onmessage</span> = <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(event.<span class="property">data</span>); <span class="comment">// 接收服务器发送的数据</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>当运行了下面得核心代码之后，会发现，并没有使用<strong>EventSource</strong> 仍然会看到<br><img src="/../images/Snipaste_2025-01-08_18-01-56.png"></p>
+<p>可以看到，<strong>仍然实现了类似 Server-Sent Events (SSE) 的功能</strong>。</p>
+<h4 id="为什么示例仍然是一个-EventStream-连接？"><a href="#为什么示例仍然是一个-EventStream-连接？" class="headerlink" title="为什么示例仍然是一个 EventStream 连接？"></a>为什么示例仍然是一个 EventStream 连接？</h4><p>因为满足了某些特定条件，在示例中，我们没有使用 <code>EventSource</code>，而是使用了 <code>fetch</code> 和 <code>ReadableStream</code>。</p>
+<ol>
+<li>服务端必须返回 <code>Content-Type: text/event-stream</code>。</li>
+<li>数据格式必须符合 SSE 规范（<code>data: &lt;content&gt;\n\n</code>）。</li>
+<li>客户端通过 <code>fetch</code> 和 <code>ReadableStream</code> 逐块读取数据，并手动解析。</li>
+</ol>
+<p>但是，需要注意一个概念问题，原生 SSE，是一个长连接，服务器可以向浏览器推送信息，我们示例只是实现了一个类似的响应式流效果，它<strong>并不是</strong> SSE长连接。<br>可以看一下 <a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2017/05/server-sent_events.html">阮一峰 SSE 教程</a></p>
+<p><strong>对比总结</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left"><code>fetch</code> + <code>ReadableStream</code></th>
+<th align="left"><code>EventSource</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>连接类型</strong></td>
+<td align="left">短连接</td>
+<td align="left">长连接</td>
+</tr>
+<tr>
+<td align="left"><strong>通信方向</strong></td>
+<td align="left">单向（客户端请求，服务器响应）</td>
+<td align="left">单向（服务器推送）</td>
+</tr>
+<tr>
+<td align="left"><strong>请求方法</strong></td>
+<td align="left">支持 GET、POST 等任意方法</td>
+<td align="left">仅支持 GET</td>
+</tr>
+<tr>
+<td align="left"><strong>自定义请求头&#x2F;请求体</strong></td>
+<td align="left">支持</td>
+<td align="left">不支持</td>
+</tr>
+<tr>
+<td align="left"><strong>数据解析</strong></td>
+<td align="left">需要手动解析</td>
+<td align="left">自动解析</td>
+</tr>
+<tr>
+<td align="left"><strong>服务器主动推送</strong></td>
+<td align="left">不支持</td>
+<td align="left">支持</td>
+</tr>
+<tr>
+<td align="left"><strong>适用场景</strong></td>
+<td align="left">需要灵活控制的场景（如 POST 请求、自定义数据）</td>
+<td align="left">简单的单向数据推送场景</td>
+</tr>
+</tbody></table>
+<h4 id="前后端核心代码"><a href="#前后端核心代码" class="headerlink" title="前后端核心代码"></a>前后端核心代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># server.py</span></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, Response,request,stream_with_context</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> flask_cors <span class="keyword">import</span> CORS</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"><span class="comment"># 启用 CORS，允许来自特定来源的跨域请求</span></span><br><span class="line">CORS(app, supports_credentials=<span class="literal">True</span>, resources=&#123;<span class="string">r&quot;/*&quot;</span>: &#123;<span class="string">&quot;origins&quot;</span>: <span class="string">&quot;*&quot;</span>&#125;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置日志记录</span></span><br><span class="line">logging.basicConfig(level=logging.DEBUG)</span><br><span class="line">LONG_RESPONSE = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">这是一个模拟的流式响应示例。我们将逐字逐句地返回一个较长的文本内容。</span></span><br><span class="line"><span class="string">通过 Server-Sent Events (SSE) 技术，前端可以实时接收并显示这些数据。</span></span><br><span class="line"><span class="string">这种方式非常适合用于聊天应用、实时日志推送或大模型生成内容的场景。</span></span><br><span class="line"><span class="string">Flask 和 Next.js 的结合使得前后端分离的开发模式更加高效。</span></span><br><span class="line"><span class="string">希望这个示例对你有帮助！</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/chat&#x27;</span>, methods=[<span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">chat</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">generate</span>():</span><br><span class="line">     <span class="comment"># 逐字返回响应内容</span></span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> LONG_RESPONSE:</span><br><span class="line">            time.sleep(<span class="number">0.1</span>)  <span class="comment"># 模拟延迟，0.1秒返回一个字符</span></span><br><span class="line">            <span class="keyword">yield</span> <span class="string">f&quot;data: <span class="subst">&#123;char&#125;</span>\n\n&quot;</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="string">&quot;data: [END]\n\n&quot;</span>  <span class="comment"># 结束标志</span></span><br><span class="line">    <span class="keyword">return</span> Response(stream_with_context(generate()), content_type=<span class="string">&#x27;text/event-stream&#x27;</span>)</span><br><span class="line"><span class="comment"># 启动服务器</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">      app.run(host=<span class="string">&#x27;0.0.0.0&#x27;</span>, port=<span class="number">5004</span>, debug=<span class="literal">False</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>流式响应</strong>：使用 <code>yield</code> 逐字返回数据，模拟流式效果。</li>
+<li><strong>SSE 格式</strong>：数据格式为 <code>data: &lt;content&gt;\n\n</code>，符合 SSE 规范。</li>
+<li><strong>结束标志</strong>：通过 <code>data: [END]\n\n</code> 标记流结束。</li>
+</ul>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// page.tsx</span></span><br><span class="line"><span class="string">&quot;use client&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Home</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [message, setMessage] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">  <span class="keyword">const</span> [response, setResponse] = <span class="title function_">useState</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">handleSubmit</span> = <span class="keyword">async</span> (<span class="params">e</span>) =&gt; &#123;</span><br><span class="line">    e.<span class="title function_">preventDefault</span>();</span><br><span class="line">    <span class="title function_">setResponse</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;http://localhost:5004/chat&quot;</span>, &#123;</span><br><span class="line">      <span class="attr">method</span>: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">      <span class="attr">headers</span>: &#123;</span><br><span class="line">        <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">body</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123; message &#125;),</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (response.<span class="property">body</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> reader = response.<span class="property">body</span>.<span class="title function_">getReader</span>();</span><br><span class="line">      <span class="keyword">const</span> decoder = <span class="keyword">new</span> <span class="title class_">TextDecoder</span>();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; done, value &#125; = <span class="keyword">await</span> reader.<span class="title function_">read</span>();</span><br><span class="line">        <span class="keyword">if</span> (done) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> chunk = decoder.<span class="title function_">decode</span>(value);</span><br><span class="line">        <span class="keyword">const</span> lines = chunk.<span class="title function_">split</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> line <span class="keyword">of</span> lines) &#123;</span><br><span class="line">          <span class="keyword">if</span> (line.<span class="title function_">startsWith</span>(<span class="string">&quot;data: &quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">const</span> data = line.<span class="title function_">slice</span>(<span class="number">6</span>).<span class="title function_">trim</span>();</span><br><span class="line">            <span class="keyword">if</span> (data === <span class="string">&quot;[END]&quot;</span>) &#123;</span><br><span class="line">              <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="title function_">setResponse</span>(<span class="function">(<span class="params">prev</span>) =&gt;</span> prev + <span class="string">&quot; &quot;</span> + data);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Chat App<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">form</span> <span class="attr">onSubmit</span>=<span class="string">&#123;handleSubmit&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">input</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">type</span>=<span class="string">&quot;text&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">value</span>=<span class="string">&#123;message&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">onChange</span>=<span class="string">&#123;(e)</span> =&gt;</span> setMessage(e.target.value)&#125;</span></span><br><span class="line"><span class="language-xml">          placeholder=&quot;Type a message&quot;</span></span><br><span class="line"><span class="language-xml">        /&gt;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>Send<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Response: &#123;response&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>流式读取</strong>：使用 <code>fetch</code> + <code>ReadableStream</code> 逐块读取数据。</li>
+<li><strong>手动解析 SSE</strong>：通过 <code>split(&#39;\n&#39;)</code> 和 <code>startsWith(&#39;data: &#39;)</code> 解析 SSE 格式数据。</li>
+<li><strong>状态更新</strong>：使用 React 的 <code>useState</code> 实时更新页面内容。</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/categories/">分类</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="toc-number">1.</span> <span class="toc-text">1. 技术栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">2. 跨域问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-SSE%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">3. SSE的理解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A4%BA%E4%BE%8B%E4%BB%8D%E7%84%B6%E6%98%AF%E4%B8%80%E4%B8%AA-EventStream-%E8%BF%9E%E6%8E%A5%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">为什么示例仍然是一个 EventStream 连接？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text">前后端核心代码</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://bighb.github.io/2025/01/08/2025-01-08/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://bighb.github.io/2025/01/08/2025-01-08/&text=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://bighb.github.io/2025/01/08/2025-01-08/&title=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://bighb.github.io/2025/01/08/2025-01-08/&is_video=false&description=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用 Flask 和 Next.js 实现流式聊天应用&body=Check out this article: https://bighb.github.io/2025/01/08/2025-01-08/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://bighb.github.io/2025/01/08/2025-01-08/&title=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://bighb.github.io/2025/01/08/2025-01-08/&title=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://bighb.github.io/2025/01/08/2025-01-08/&title=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://bighb.github.io/2025/01/08/2025-01-08/&title=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://bighb.github.io/2025/01/08/2025-01-08/&name=使用 Flask 和 Next.js 实现流式聊天应用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://bighb.github.io/2025/01/08/2025-01-08/&t=使用 Flask 和 Next.js 实现流式聊天应用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2025
+    bighb
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bighb">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
